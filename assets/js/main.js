@@ -1,5 +1,3 @@
-Dropzone.autoDiscover = false;
-
 jQuery(document).ready(function ($) {
     var openButtons = document.querySelectorAll('[js-ufru-open-image]');
 
