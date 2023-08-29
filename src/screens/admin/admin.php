@@ -43,27 +43,27 @@ function custom_user_images_page() {
 					$images = scandir( $user_folder );
 					$image_url = wp_upload_dir()['baseurl'] . '/' . $user_id;
 					?>
-
-					<tr class="ufru-table__row">
-						<td class="ufru-table__row-cell">
-							<?php echo $user_id; ?>
-						</td>
-						<td class="ufru-table__row-cell">
-							<?php echo $user->user_login; ?>
-						</td>
-						<td class="ufru-table__row-cell">
-							<div class="ufru-images-grid">
-								<?php foreach ( $images as $image ) : ?>
-									<?php if ( $image != '.' && $image != '..' ) : ?>
-										<div class="ufru-images-grid__media">
-											<img src="<?php echo $image_url . '/' . $image; ?>" alt="User Image">
-										</div>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							</div>
-						</td>
-					</tr>
-
+                    <?php if (!empty($images)) : ?>
+                        <tr class="ufru-table__row">
+                            <td class="ufru-table__row-cell">
+                                <?php echo $user_id; ?>
+                            </td>
+                            <td class="ufru-table__row-cell">
+                                <?php echo $user->user_login; ?>
+                            </td>
+                            <td class="ufru-table__row-cell">
+                                <div class="ufru-images-grid">
+                                    <?php foreach ( $images as $image ) : ?>
+                                        <?php if ( $image != '.' && $image != '..' ) : ?>
+                                            <div class="ufru-images-grid__media">
+                                                <img src="<?php echo $image_url . '/' . $image; ?>" alt="User Image">
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
 				<?php } ?>
 			</tbody>
 		</table>
