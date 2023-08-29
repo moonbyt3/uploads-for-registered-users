@@ -17,13 +17,13 @@ function custom_user_images_page() {
     ?>
 
     <div class="wrap">
-        <h2><?php __( 'User Images', 'uploads-for-registered-users' ); ?></h2>
+        <h2><?php _e( 'User Images', 'uploads-for-registered-users' ); ?></h2>
         <table class="ufru-table wp-list-table widefat striped">
             <thead>
                 <tr class="ufru-table__row">
-                    <th><?php __( 'User ID', 'uploads-for-registered-users' ); ?></th>
-                    <th><?php __( 'Username', 'uploads-for-registered-users' ); ?></th>
-                    <th><?php __( 'Uploaded Images', 'uploads-for-registered-users' ); ?></th>
+                    <th><?php _e( 'User ID', 'uploads-for-registered-users' ); ?></th>
+                    <th><?php _e( 'Username', 'uploads-for-registered-users' ); ?></th>
+                    <th><?php _e( 'Uploaded Images', 'uploads-for-registered-users' ); ?></th>
                 </tr>
             </thead>
             <tbody>

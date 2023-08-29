@@ -51,8 +51,8 @@ function custom_subscriber_dashboard() {
     ?>
 
     <div class="wrap">
-        <h2><?php __( 'Upload Images', 'uploads-for-registered-users' ); ?></h2>
-        <p><?php __( 'Note: You can select multiple images to upload.', 'uploads-for-registered-users' ); ?></p>
+        <h2><?php _e( 'Upload Images', 'uploads-for-registered-users' ); ?></h2>
+        <p><?php _e( 'Note: You can select multiple images to upload.', 'uploads-for-registered-users' ); ?></p>
         <form method="post" enctype="multipart/form-data">
             <input 
                 type="file"
@@ -64,7 +64,7 @@ function custom_subscriber_dashboard() {
         </form>
         <?php if (!empty($images)): ?>
             <div class="ufru-upload-images">
-                <h3><?php __( 'Uploaded Images', 'uploads-for-registered-users' ); ?></h3>
+                <h3><?php _e( 'Uploaded Images', 'uploads-for-registered-users' ); ?></h3>
                 <div class="ufru-upload-images__wrapper">
                     <?php foreach ($images as $image): ?>
                         <div class="ufru-image-preview">
