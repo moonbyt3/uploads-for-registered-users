@@ -1,6 +1,6 @@
 Dropzone.autoDiscover = false;
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     // var myDropzone = new Dropzone('#my-dropzone', {
     //     url: '/',
     //     autoProcessQueue: false, // Disable automatic upload
@@ -20,7 +20,7 @@ jQuery(document).ready(function($) {
 
     if (openButtons.length > 0) {
 
-    console.log(openButtons);
+        console.log(openButtons);
         openButtons.forEach((button) => {
             button.addEventListener('click', (e) => {
                 console.log(e.target, this);
