@@ -47,17 +47,17 @@ if ( get_option( 'users_can_register' ) ) {
 
 	// Enqueue scripts and styles for dashboard pages
 	function custom_dashboard_scripts() {
-		wp_enqueue_style( 'ufru-main-styles', plugin_dir_url( __FILE__ ) . 'assets/css/main.css', [], '1.0', 'all' );
+		wp_enqueue_style( 'ufru-main-styles', plugin_dir_url( __FILE__ ) . 'public/css/main.css', [], '1.0', 'all' );
 		wp_enqueue_script( 'jquery' );
 
-		wp_enqueue_script( 'ufru-main-js', plugin_dir_url( __FILE__ ) . 'assets/js/main.js', [ 'jquery' ], '1.0', true );
+		wp_enqueue_script( 'ufru-main-js', plugin_dir_url( __FILE__ ) . 'public/js/main.js', [ 'jquery' ], '1.0', true );
 	}
 	add_action( 'admin_enqueue_scripts', 'custom_dashboard_scripts' );
 
 	// Add plugin files
-	require_once( plugin_dir_path( __FILE__ ) . '/src/screens/uploads.php' );
-	require_once( plugin_dir_path( __FILE__ ) . '/src/screens/settings/settings.php' );
-	require_once( plugin_dir_path( __FILE__ ) . '/src/screens/admin/admin.php' );
+	require_once( plugin_dir_path( __FILE__ ) . '/public/uploads.php' );
+	require_once( plugin_dir_path( __FILE__ ) . '/admin/settings.php' );
+	require_once( plugin_dir_path( __FILE__ ) . '/admin/user-images.php' );
 } else {
 	// User registration is not enabled
 	function ufru_error_registration_disabled() {
