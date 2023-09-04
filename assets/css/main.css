@@ -74,7 +74,6 @@
     position: absolute;
     padding: 0;
     cursor: pointer;
-    transition: .3s ease-in;
 }
 
 .ufru-image-preview__button--top-right {
@@ -85,10 +84,6 @@
 .ufru-image-preview__button--bottom-right {
     bottom: 2px;
     right: 2px;
-}
-
-.ufru-image-preview__button:hover {
-    transform: scale(1.1);
 }
 
 .ufru-image-preview__button-icon-remove {
@@ -102,8 +97,4 @@
     font-size: 20px;
     color: #2271b1;
     cursor: pointer;
-}
-
-.ufru-image-preview__button-icon-expand:hover {
-    transform: scale(1.1);
 }
