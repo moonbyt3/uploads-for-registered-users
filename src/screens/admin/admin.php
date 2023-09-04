@@ -52,8 +52,10 @@ function custom_user_images_page() {
 				foreach ( $blogusers as $user ) {
 					$user_id = $user->ID;
 					$user_folder = wp_upload_dir()['basedir'] . '/' . $user_id;
-					$images = scandir( $user_folder );
-					$image_url = wp_upload_dir()['baseurl'] . '/' . $user_id;
+					if (is_dir($user_folder)) {
+						$images = scandir( $user_folder );
+						$image_url = wp_upload_dir()['baseurl'] . '/' . $user_id;
+					}
 					?>
 					<?php if ( ! empty( $images ) ) : ?>
 						<tr class="ufru-table__row">
@@ -106,6 +108,15 @@ function custom_user_images_page() {
 								</div>
 							</td>
 						</tr>
+					<?php else: ?>
+						<div class="error notice">
+							<p>
+								<?php _e( 'Error in plugin: <b>Uploads For Registrated Users</b>', 'uploads-for-registered-users' ); ?>
+							</p>
+							<p>
+								<?php _e( 'Can\'t find folder: ', 'uploads-for-registered-users' ); echo $user_folder; ?>
+							</p>
+						</div>
 					<?php endif; ?>
 				<?php } ?>
 			</tbody>
