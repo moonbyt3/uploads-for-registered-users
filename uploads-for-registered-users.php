@@ -47,11 +47,9 @@ if ( get_option( 'users_can_register' ) ) {
 
 	// Enqueue scripts and styles for dashboard pages
 	function custom_dashboard_scripts() {
-		wp_enqueue_style( 'dropzone-styles', plugin_dir_url( __FILE__ ) . 'library/dropzone/dropzone.min.css', [], '1.0', 'all' );
 		wp_enqueue_style( 'ufru-main-styles', plugin_dir_url( __FILE__ ) . 'assets/css/main.css', [], '1.0', 'all' );
 		wp_enqueue_script( 'jquery' );
 
-		wp_enqueue_script( 'ufru-dropzone-js', plugin_dir_url( __FILE__ ) . 'library/dropzone/dropzone.min.js', [ 'jquery' ], '1.0', true );
 		wp_enqueue_script( 'ufru-main-js', plugin_dir_url( __FILE__ ) . 'assets/js/main.js', [ 'jquery' ], '1.0', true );
 	}
 	add_action( 'admin_enqueue_scripts', 'custom_dashboard_scripts' );
