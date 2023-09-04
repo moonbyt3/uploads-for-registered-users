@@ -56,6 +56,7 @@ if ( get_option( 'users_can_register' ) ) {
 
 	// Add plugin files
 	require_once( plugin_dir_path( __FILE__ ) . '/src/screens/uploads.php' );
+	require_once( plugin_dir_path( __FILE__ ) . '/src/screens/settings/settings.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/src/screens/admin/admin.php' );
 } else {
 	// User registration is not enabled

@@ -8,7 +8,8 @@ function user_images_admin_page() {
 		'User Images',
 		'manage_options',
 		'user_images',
-		'user_images_screen'
+		'user_images_screen',
+		1
 	);
 }
 add_action( 'admin_menu', 'user_images_admin_page' );
