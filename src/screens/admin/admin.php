@@ -108,15 +108,6 @@ function custom_user_images_page() {
 								</div>
 							</td>
 						</tr>
-					<?php else: ?>
-						<div class="error notice">
-							<p>
-								<?php _e( 'Error in plugin: <b>Uploads For Registrated Users</b>', 'uploads-for-registered-users' ); ?>
-							</p>
-							<p>
-								<?php _e( 'Can\'t find folder: ', 'uploads-for-registered-users' ); echo $user_folder; ?>
-							</p>
-						</div>
 					<?php endif; ?>
 				<?php } ?>
 			</tbody>
