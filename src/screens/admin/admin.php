@@ -1,19 +1,20 @@
 <?php
 
 // Add an admin menu page to list users and their images
-function custom_admin_page() {
-	add_menu_page(
+function user_images_admin_page() {
+	add_submenu_page(
+		'uploads-for-registered-users',
 		'User Images',
 		'User Images',
 		'manage_options',
-		'user-images',
-		'custom_user_images_page'
+		'user_images',
+		'user_images_screen'
 	);
 }
-add_action( 'admin_menu', 'custom_admin_page' );
+add_action( 'admin_menu', 'user_images_admin_page' );
 
 // Admin page content
-function custom_user_images_page() {
+function user_images_screen() {
 	// Handle image removal
 	if ( isset( $_POST['remove_image'] ) && isset( $_POST['user_id'] ) ) {
 		$user_id = $_POST['user_id'];

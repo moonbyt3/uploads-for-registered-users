@@ -55,8 +55,8 @@ if ( get_option( 'users_can_register' ) ) {
 	add_action( 'admin_enqueue_scripts', 'custom_dashboard_scripts' );
 
 	// Add plugin files
+	require_once( plugin_dir_path( __FILE__ ) . '/src/screens/uploads.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/src/screens/admin/admin.php' );
-	require_once( plugin_dir_path( __FILE__ ) . '/src/screens/clients/clients.php' );
 } else {
 	// User registration is not enabled
 	function ufru_error_registration_disabled() {

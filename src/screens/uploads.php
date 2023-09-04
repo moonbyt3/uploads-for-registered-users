@@ -1,18 +1,19 @@
 <?php
-// Add a submenu page for subscribers
-function custom_dashboard_submenu() {
+// Add dashboard menu page to contain all plugin pages
+function uploads_for_registered_users_menu_page() {
 	add_menu_page(
-		'Upload Images',
-		'Upload Images',
+		'Uploads For Registered Users',
+		'Uploads',
 		'read',
-		'upload-images',
-		'custom_subscriber_dashboard',
-		'dashicons-upload'
+		'uploads-for-registered-users',
+		'uploads_for_registered_users',
+		'dashicons-upload',
 	);
 }
-add_action( 'admin_menu', 'custom_dashboard_submenu' );
+add_action( 'admin_menu', 'uploads_for_registered_users_menu_page' );
 
-function custom_subscriber_dashboard() {
+
+function uploads_for_registered_users() {
 	$user_id = get_current_user_id();
 	$user_folder = wp_upload_dir()['basedir'] . '/' . $user_id; // Get the user's folder path
 	$user_folder_url = wp_upload_dir()['baseurl'] . '/' . $user_id; // Get the user's folder URL
