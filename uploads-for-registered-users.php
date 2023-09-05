@@ -13,6 +13,14 @@
  * Text Domain:       uploads-for-registered-users
  */
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
+define( 'PLUGIN_NAME_VERSION', '1.0.0' );
+define( 'UFRU_PLUGIN_PATH', __FILE__);
+
 // Check if user registration is enabled in WordPress
 if ( get_option( 'users_can_register' ) ) {
 	// Add hooks
@@ -55,6 +63,8 @@ if ( get_option( 'users_can_register' ) ) {
 	add_action( 'admin_enqueue_scripts', 'custom_dashboard_scripts' );
 
 	// Add plugin files
+	require_once( plugin_dir_path( __FILE__ ) . '/activate.php' );
+	require_once( plugin_dir_path( __FILE__ ) . '/deactivate.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/public/uploads.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/admin/settings.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/admin/user-images.php' );
