@@ -13,12 +13,7 @@ function settings_page() {
 add_action( 'admin_menu', 'settings_page' );
 
 function ufru_register_settings() {
-    register_setting('ufru-max-number-of-uploads', 'ufru_max_number_of_uploads', [
-        'default' => '10'
-    ]);
-    if ( get_option( 'ufru_max_number_of_uploads' ) === false ) {
-        update_option( 'ufru_max_number_of_uploads', '10' );
-    }
+    register_setting('ufru-max-number-of-uploads', 'ufru_max_number_of_uploads');
 }
 add_action('admin_init', 'ufru_register_settings');
 
@@ -33,12 +28,12 @@ function settings_screen() {
                     <tr>
                         <th scope="row">Max number of user uploads</th>
                         <td>
-                            <?php echo get_option('ufru_max_number_of_uploads'); ?>
                             <input 
-                                type="text"
+                                type="number"
                                 name="ufru_max_number_of_uploads" 
-                                value="<?php echo esc_attr(get_option('ufru_max_number_of_uploads', '10')); ?>"
-                                value="<?php echo esc_attr(get_option('ufru_max_number_of_uploads')); ?>" 
+                                value="<?php echo esc_attr(get_option('ufru_max_number_of_uploads')); ?>"
+                                min="1"
+                                max="40"
                             />
                         </td>
                     </tr>
