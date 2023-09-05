@@ -23,7 +23,6 @@ function settings_screen() {
             <h1>My Plugin Settings</h1>
             <form method="post" action="options.php">
                 <?php settings_fields('ufru-max-number-of-uploads'); ?>
-                <?php do_settings_sections('my-plugin-settings'); ?>
                 <table class="form-table">
                     <tr>
                         <th scope="row">Max number of user uploads</th>
