@@ -17,6 +17,20 @@ function ufru_register_settings() {
 }
 add_action('admin_init', 'ufru_register_settings');
 
+function calculate_max_number_of_uploads() {
+    $server_max_file_uploads = ini_get('max_file_uploads');
+    $plugin_max_file_uploads = esc_attr(get_option('ufru_max_number_of_uploads'));
+    $result = 0;
+
+    if ((int)$plugin_max_file_uploads <= (int)$server_max_file_uploads) {
+        $result = (int)$plugin_max_file_uploads;
+    } else {
+        $result = (int)$server_max_file_uploads;
+    }
+
+    return $result;
+}
+
 function settings_screen() {
     ?>
         <div class="wrap">
@@ -30,9 +44,10 @@ function settings_screen() {
                             <input 
                                 type="number"
                                 name="ufru_max_number_of_uploads" 
-                                value="<?php echo esc_attr(get_option('ufru_max_number_of_uploads')); ?>"
+                                id="ufru_max_number_of_uploads"
+                                value="<?php echo calculate_max_number_of_uploads(); ?>"
                                 min="1"
-                                max="40"
+                                max="<?php echo ini_get('max_file_uploads'); ?>"
                             />
                         </td>
                     </tr>
@@ -41,7 +56,11 @@ function settings_screen() {
             </form>
         </div>
         <div class="wrap">
-            <h2>Scan Folders</h2>
+            <h2>Debug</h2>
+            <p>
+                <?php $maxUploads = ini_get('max_file_uploads'); ?>
+                INI Max File Uploads: <?php echo $maxUploads; ?>
+            </p>
             <br><br>
             <p>TODO: Scan for deleted users</p>
             <form method="post">

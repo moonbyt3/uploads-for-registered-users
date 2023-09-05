@@ -60,7 +60,7 @@ function uploads_for_registered_users() {
 		</p>
 		<form method="post" enctype="multipart/form-data">
 			<input type="file" id="file_upload" accept="image/jpeg, image/png, image/jpg" name="images[]" multiple>
-			<input type="submit" name="submit" value="Upload">
+			<input type="submit" name="submit" value="Upload" js-upload-images-form-submit>
 		</form>
 		<?php if ( ! empty( $images ) ) : ?>
 			<div class="ufru-upload-images">
