@@ -12,15 +12,13 @@ function uploads_for_registered_users_menu_page() {
 }
 add_action( 'admin_menu', 'uploads_for_registered_users_menu_page' );
 
-
 function uploads_for_registered_users() {
 	$plugin_name = 'ufru';
 	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
-	$user_name = $current_user->display_name;
+	$user_name = preg_replace('/\s+/', '_', $current_user->display_name);
 	$user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder path
 	$user_folder_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder URL
-
 	
 	// Handle image uploads
 	if ( isset( $_POST['submit'] ) ) {

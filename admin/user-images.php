@@ -52,7 +52,7 @@ class User_Images_List_Table extends WP_List_Table {
     public function column_uploaded_images($item) {
 		$plugin_name = 'ufru';
         $user_id = $item['user_id'];
-		$user_name = $item['user_login'];
+		$user_name = preg_replace('/\s+/', '_', $item['user_login']);
 
 		$user_uploads_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
 
@@ -134,7 +134,7 @@ class User_Images_List_Table extends WP_List_Table {
         foreach ($blogusers as $user) {
 			$plugin_name = 'ufru';
             $user_id = $user->ID;
-			$user_name = $user->display_name;
+			$user_name = preg_replace('/\s+/', '_', $user->display_name);
             $user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
 
             if (is_dir($user_folder)) {
@@ -142,7 +142,7 @@ class User_Images_List_Table extends WP_List_Table {
                 if (!empty($images)) {
                     $data[] = array(
                         'user_id' => $user_id,
-                        'user_login' => $user->user_login,
+                        'user_login' => $user->display_name,
                     );
                 }
             }
