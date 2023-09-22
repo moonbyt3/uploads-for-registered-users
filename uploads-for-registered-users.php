@@ -55,12 +55,16 @@ if ( get_option( 'users_can_register' ) ) {
 
 	// Enqueue scripts and styles for dashboard pages
 	function custom_dashboard_scripts() {
-		wp_enqueue_style( 'ufru-main-styles', plugin_dir_url( __FILE__ ) . 'public/css/main.css', [], '1.0', 'all' );
+		wp_enqueue_style( 'ufru-main-styles-admin', plugin_dir_url( __FILE__ ) . 'admin/css/main.css', [], '1.0', 'all' );
+		wp_enqueue_style( 'ufru-main-styles-users', plugin_dir_url( __FILE__ ) . 'public/css/main.css', [], '1.0', 'all' );
 		wp_enqueue_script( 'jquery' );
 
 		wp_enqueue_script( 'ufru-main-js', plugin_dir_url( __FILE__ ) . 'public/js/main.js', [ 'jquery' ], '1.0', true );
 	}
+
 	add_action( 'admin_enqueue_scripts', 'custom_dashboard_scripts' );
+
+
 
 	// Add plugin files
 	require_once( plugin_dir_path( __FILE__ ) . '/activate.php' );

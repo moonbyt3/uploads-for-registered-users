@@ -71,7 +71,9 @@ function uploads_for_registered_users() {
 					<?php foreach ( $images as $image ) : ?>
 						<div class="ufru-image-preview">
 							<img src="<?php echo $user_folder_url . '/' . $image; ?>" class="ufru-image-preview__img"
-								alt="Image Preview" width="200">
+								alt="Image Preview" width="200"
+								loading="lazy"
+							>
 							<form method="post">
 								<input type="hidden" name="remove_image" value="<?php echo $image; ?>">
 								<button 
