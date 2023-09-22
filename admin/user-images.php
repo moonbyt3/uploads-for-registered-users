@@ -35,28 +35,31 @@ class User_Images_List_Table extends WP_List_Table {
     public function column_uploaded_images($item) {
         $user_id = $item['user_id'];
         $user_folder = wp_upload_dir()['basedir'] . '/' . $user_id;
-        $images = scandir($user_folder);
+        $images = array_diff(scandir($user_folder), array('..', '.'));
         $image_url = wp_upload_dir()['baseurl'] . '/' . $user_id;
 
         if (!empty($images)) {
 			ob_start(); ?>
-			<div class="ufru-upload-images__wrapper">
+			<div class="ufru-upload-images__wrapper 1">
 			<?php ob_end_flush();
+				ob_start();
 				foreach ($images as $image) { 
 				?>
-					<div class="ufru-upload-images__wrapper">
-						<div class="ufru-image-preview">
-							<img src="<?php echo $image_url . '/' . $image ?>" class="ufru-image-preview__img" alt="User Image" width="200" loading="lazy">
-							<form method="post">
-								<input type="hidden" name="user_id" value="<?php $user_id; ?>" />
-								<input type="hidden" name="remove_image" value="<?php $image; ?>">
-								<button class="ufru-image-preview__button ufru-image-preview__button--top-right ufru-image-preview__button-icon-remove ufru-button dashicons-before dashicons-no" title="<?php echo __('Delete image', 'uploads-for-registered-users'); ?>" type="submit"></button>
-								<span class="ufru-image-preview__button ufru-image-preview__button--bottom-right ufru-image-preview__button-icon-expand ufru-button dashicons-before dashicons-editor-expand" title="<?php echo __('Open full screen image', 'uploads-for-registered-users'); ?>" js-ufru-open-image></span>
-							</form>
-						</div>
+					<div class="ufru-image-preview">
+						<img src="<?php echo $image_url . '/' . $image ?>" class="ufru-image-preview__img" alt="User Image" width="200" loading="lazy">
+						<form method="post">
+							<input type="hidden" name="user_id" value="<?php $user_id; ?>" />
+							<input type="hidden" name="remove_image" value="<?php $image; ?>">
+							<button class="ufru-image-preview__button ufru-image-preview__button--top-right ufru-image-preview__button-icon-remove ufru-button dashicons-before dashicons-no" title="<?php echo __('Delete image', 'uploads-for-registered-users'); ?>" type="submit"></button>
+							<span class="ufru-image-preview__button ufru-image-preview__button--bottom-right ufru-image-preview__button-icon-expand ufru-button dashicons-before dashicons-editor-expand" title="<?php echo __('Open full screen image', 'uploads-for-registered-users'); ?>" js-ufru-open-image></span>
+						</form>
 					</div>
-				<?php }
+				<?php } ?>
+			<?php
 			ob_end_flush();
+			ob_start(); ?>
+			</div>
+			<?php ob_end_flush();
         } else {
             return '';
         }
