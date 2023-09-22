@@ -17,6 +17,23 @@ if(!class_exists('WP_List_Table')){
     require_once( ABSPATH . 'wp-admin/includes/screen.php' );
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
+
+if ( isset( $_POST['user_id'] ) ) {
+	$plugin_name = 'ufru';
+	$user_id = $_POST['user_id'];
+	$user_name = $_POST['user_name'];
+
+	$user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder path
+	$image_filename = sanitize_file_name( $_POST['remove_image'] );
+	
+	$image_path = $user_folder . '/' . $image_filename;
+
+	// Delete the image file
+	if ( file_exists( $image_path ) ) {
+		unlink( $image_path );
+	}
+}
+
 // Admin page content
 class User_Images_List_Table extends WP_List_Table {
     public function __construct() {
@@ -33,24 +50,41 @@ class User_Images_List_Table extends WP_List_Table {
 
 
     public function column_uploaded_images($item) {
+		$plugin_name = 'ufru';
         $user_id = $item['user_id'];
-        $user_folder = wp_upload_dir()['basedir'] . '/' . $user_id;
-        $images = array_diff(scandir($user_folder), array('..', '.'));
-        $image_url = wp_upload_dir()['baseurl'] . '/' . $user_id;
+		$user_name = $item['user_login'];
 
-        if (!empty($images)) {
+		$user_uploads_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
+
+		$image_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
+        $images = array_diff(scandir($user_uploads_folder), array('..', '.'));
+        
+		if (!empty($images)) {
 			ob_start(); ?>
-			<div class="ufru-upload-images__wrapper 1">
+			<div class="ufru-upload-images__wrapper">
 			<?php ob_end_flush();
 				ob_start();
 				foreach ($images as $image) { 
 				?>
-					<div class="ufru-image-preview">
-						<img src="<?php echo $image_url . '/' . $image ?>" class="ufru-image-preview__img" alt="User Image" width="200" loading="lazy">
+					<div class="ufru-image-preview 2">
+						<img
+                            src="<?php echo $image_url . '/' . $image ?>"
+                            class="ufru-image-preview__img"
+                            alt="User Image"
+                            width="200"
+                            loading="lazy"
+                        >
 						<form method="post">
-							<input type="hidden" name="user_id" value="<?php $user_id; ?>" />
-							<input type="hidden" name="remove_image" value="<?php $image; ?>">
-							<button class="ufru-image-preview__button ufru-image-preview__button--top-right ufru-image-preview__button-icon-remove ufru-button dashicons-before dashicons-no" title="<?php echo __('Delete image', 'uploads-for-registered-users'); ?>" type="submit"></button>
+							<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
+							<input type="hidden" name="user_id" value="<?php echo $user_id; ?>" />
+							<input type="hidden" name="user_name" value="<?php echo $user_name; ?>" />
+							<input type="hidden" name="remove_image" value="<?php echo $image; ?>">
+							<button 
+								class="ufru-image-preview__button ufru-image-preview__button--top-right ufru-image-preview__button-icon-remove ufru-button dashicons-before dashicons-no"
+								title="<?php echo __('Delete image', 'uploads-for-registered-users'); ?>"
+								type="submit"
+								id="submit"
+							></button>
 							<span class="ufru-image-preview__button ufru-image-preview__button--bottom-right ufru-image-preview__button-icon-expand ufru-button dashicons-before dashicons-editor-expand" title="<?php echo __('Open full screen image', 'uploads-for-registered-users'); ?>" js-ufru-open-image></span>
 						</form>
 					</div>
@@ -98,8 +132,10 @@ class User_Images_List_Table extends WP_List_Table {
         $blogusers = get_users();
 
         foreach ($blogusers as $user) {
+			$plugin_name = 'ufru';
             $user_id = $user->ID;
-            $user_folder = wp_upload_dir()['basedir'] . '/' . $user_id;
+			$user_name = $user->display_name;
+            $user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
 
             if (is_dir($user_folder)) {
                 $images = scandir($user_folder);
@@ -123,12 +159,10 @@ function user_images_screen() {
 
     <div class="wrap">
         <h2><?php _e('User Images', 'uploads-for-registered-users'); ?></h2>
-        <form method="post">
-            <input type="hidden" name="page" value="user-images-screen">
-			<div class="ufru-table-user-images">
-				<?php $user_images_table->display(); ?>
-			</div>
-        </form>
+
+		<div class="ufru-table-user-images">
+			<?php $user_images_table->display(); ?>
+		</div>
     </div>
 
     <?php

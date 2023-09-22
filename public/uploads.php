@@ -14,15 +14,19 @@ add_action( 'admin_menu', 'uploads_for_registered_users_menu_page' );
 
 
 function uploads_for_registered_users() {
-	$user_id = get_current_user_id();
-	$user_folder = wp_upload_dir()['basedir'] . '/' . $user_id; // Get the user's folder path
-	$user_folder_url = wp_upload_dir()['baseurl'] . '/' . $user_id; // Get the user's folder URL
+	$plugin_name = 'ufru';
+	$current_user = wp_get_current_user();
+	$user_id = $current_user->ID;
+	$user_name = $current_user->display_name;
+	$user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder path
+	$user_folder_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder URL
 
+	
 	// Handle image uploads
 	if ( isset( $_POST['submit'] ) ) {
 		$user_id = get_current_user_id();
 		$upload_dir = wp_upload_dir();
-		$user_folder = $upload_dir['basedir'] . '/' . $user_id;
+		$user_folder = $upload_dir['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
 
 		if ( ! file_exists( $user_folder ) ) {
 			wp_mkdir_p( $user_folder );
@@ -70,8 +74,11 @@ function uploads_for_registered_users() {
 				<div class="ufru-upload-images__wrapper">
 					<?php foreach ( $images as $image ) : ?>
 						<div class="ufru-image-preview">
-							<img src="<?php echo $user_folder_url . '/' . $image; ?>" class="ufru-image-preview__img"
-								alt="Image Preview" width="200"
+							<img 
+								src="<?php echo $user_folder_url . '/' . $image; ?>"
+								class="ufru-image-preview__img"
+								alt="Image Preview"
+								width="200"
 								loading="lazy"
 							>
 							<form method="post">
