@@ -7,10 +7,9 @@ function settings_page() {
 		'manage_options',
 		'settings',
 		'settings_screen',
-        100
 	);
 }
-add_action( 'admin_menu', 'settings_page' );
+add_action( 'admin_menu', 'settings_page', 9999 );
 
 function ufru_register_settings() {
     register_setting('ufru-max-number-of-uploads', 'ufru_max_number_of_uploads');
