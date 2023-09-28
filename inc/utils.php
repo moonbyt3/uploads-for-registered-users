@@ -1,5 +1,5 @@
 <?php
-    function calculate_max_number_of_uploads() {
+    function urfu_calculate_max_number_of_uploads() {
         $server_max_file_uploads = ini_get('max_file_uploads');
         $plugin_max_file_uploads = esc_attr(get_option('ufru_max_number_of_uploads'));
         $result = 0;
