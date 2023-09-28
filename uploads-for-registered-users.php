@@ -69,6 +69,7 @@ if ( get_option( 'users_can_register' ) ) {
 	// Add plugin files
 	require_once( plugin_dir_path( __FILE__ ) . '/activate.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/deactivate.php' );
+	require_once( plugin_dir_path( __FILE__ ) . '/inc/utils.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/public/uploads.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/admin/settings.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/admin/user-images.php' );
