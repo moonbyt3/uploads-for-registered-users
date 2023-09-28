@@ -4,7 +4,7 @@ function uploads_for_registered_users_menu_page() {
 	add_menu_page(
 		'Uploads For Registered Users',
 		'Uploads',
-		'read',
+		'subscriber',
 		'uploads-for-registered-users',
 		'uploads_for_registered_users',
 		'dashicons-upload',
