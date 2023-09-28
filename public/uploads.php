@@ -19,12 +19,14 @@ function uploads_for_registered_users() {
 	$user_name = preg_replace('/\s+/', '_', $current_user->display_name);
 	$user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder path
 	$user_folder_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder URL
-	
+
 	// Handle image uploads
 	if ( isset( $_POST['submit'] ) ) {
 		$user_id = get_current_user_id();
 		$upload_dir = wp_upload_dir();
 		$user_folder = $upload_dir['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
+		$current_number_of_files = count(glob($user_folder . '/*')); // Count existing files in the folder
+		$max_files = urfu_calculate_max_number_of_uploads();
 
 		if ( ! file_exists( $user_folder ) ) {
 			wp_mkdir_p( $user_folder );
@@ -32,9 +34,21 @@ function uploads_for_registered_users() {
 
 		if ( ! empty( $_FILES['images']['name'] ) ) {
 			foreach ( $_FILES['images']['name'] as $key => $name ) {
-				$image_tmp = $_FILES['images']['tmp_name'][ $key ];
-				$image_name = sanitize_file_name( $name );
-				move_uploaded_file( $image_tmp, $user_folder . '/' . $image_name );
+				if ($current_number_of_files < $max_files) {
+					$image_tmp = $_FILES['images']['tmp_name'][$key];
+					$image_name = sanitize_file_name($name);
+					$target_path = $user_folder . '/' . $image_name;
+
+					// Check if the file already exists in the folder
+					if (!file_exists($target_path)) {
+						move_uploaded_file($image_tmp, $target_path);
+						$current_number_of_files++; // Increment the count of files in the folder
+					}
+				} else {
+					$errorMsg = '<div class="error notice">' . __('Maximum number of uploads reached', 'uploads-for-registered-users') .  '</div>';
+					wp_die($errorMsg);
+					break;
+				}
 			}
 		}
 	}
