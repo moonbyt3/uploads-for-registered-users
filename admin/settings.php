@@ -137,10 +137,10 @@ class UFRUSettingsPage
      * Get the settings option array and print one of its values
      */
     public function input_allowed_formats_callback() {
-        $tip = '<br><small>' . __('Enter file extensions separated by space', 'uploads-for-registered-users') . '</small>';
+        $tip = '<br><p>' . __('Enter file extensions separated by space, for example: ', 'uploads-for-registered-users') . '<code>jpg jpeg png</code></p>';
         printf(
             '<input type="text" id="ufru_allowed_file_types" name="ufru_settings[ufru_allowed_file_types]" value="%s" />',
-            (isset( $this->options['ufru_allowed_file_types'] ) && !empty($this->options['ufru_allowed_file_types'])) ? esc_attr( $this->options['ufru_allowed_file_types']) : '.jpg .jpeg .png'
+            (isset( $this->options['ufru_allowed_file_types'] ) && !empty($this->options['ufru_allowed_file_types'])) ? esc_attr( $this->options['ufru_allowed_file_types']) : 'jpg jpeg png'
         );
         print($tip);
     }
