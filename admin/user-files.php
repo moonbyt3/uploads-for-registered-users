@@ -1,11 +1,11 @@
 <?php
 // Add an admin menu page to list users and their files
-function user_filess_admin_page() {
+function user_files_admin_page() {
 	add_submenu_page(
 		'uploads-for-registered-users',
 		'User Files',
 		'User Files',
-		'manage_options',
+		'read',
 		'user_files',
 		'user_files_screen',
 	);
