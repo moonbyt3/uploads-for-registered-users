@@ -32,7 +32,6 @@ function settings_screen() {
                                 id="ufru_max_number_of_uploads"
                                 value="<?php echo urfu_calculate_max_number_of_uploads(); ?>"
                                 min="1"
-                                max="<?php echo ini_get('max_file_uploads'); ?>"
                             />
                         </td>
                     </tr>

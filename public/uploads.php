@@ -74,6 +74,9 @@ function uploads_for_registered_users() {
 		<p>
 			<?php _e( 'Note: You can select multiple images to upload.', 'uploads-for-registered-users' ); ?>
 		</p>
+		<p>
+			<?php _e( 'Max number of uploads:', 'uploads-for-registered-users' ); ?> <?php echo urfu_calculate_max_number_of_uploads(); ?>
+		</p>
 		<form method="post" enctype="multipart/form-data">
 			<input type="file" id="file_upload" accept="image/jpeg, image/png, image/jpg" name="images[]" multiple>
 			<input type="submit" name="submit" value="Upload" js-upload-images-form-submit>
