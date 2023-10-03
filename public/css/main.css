@@ -72,6 +72,10 @@
     display: flex;
 }
 
+.ufru-image-preview img {
+    object-fit: cover;
+}
+
 .ufru-image-preview form {
     height: 0;
     line-height: 0;

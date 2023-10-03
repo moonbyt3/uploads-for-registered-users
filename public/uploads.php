@@ -120,7 +120,7 @@ function uploads_for_registered_users() {
 										dashicons-before
 										dashicons-editor-expand
 									"
-									title="<?php _e( 'Open full screen image', 'uploads-for-registered-users' ); ?>"
+									title="<?php _e( 'Open in full screen', 'uploads-for-registered-users' ); ?>"
 									js-ufru-open-image
 								>
 								</span>

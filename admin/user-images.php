@@ -65,12 +65,13 @@ class User_Images_List_Table extends WP_List_Table {
 				ob_start();
 				foreach ($images as $image) { 
 				?>
-					<div class="ufru-image-preview 2">
+					<div class="ufru-image-preview">
 						<img
                             src="<?php echo $image_url . '/' . $image ?>"
                             class="ufru-image-preview__img"
                             alt="User Image"
                             width="200"
+                            height="200"
                             loading="lazy"
                         >
 						<form method="post">
@@ -84,7 +85,7 @@ class User_Images_List_Table extends WP_List_Table {
 								type="submit"
 								id="submit"
 							></button>
-							<span class="ufru-image-preview__button ufru-image-preview__button--bottom-right ufru-image-preview__button-icon-expand ufru-button dashicons-before dashicons-editor-expand" title="<?php echo __('Open full screen image', 'uploads-for-registered-users'); ?>" js-ufru-open-image></span>
+							<span class="ufru-image-preview__button ufru-image-preview__button--bottom-right ufru-image-preview__button-icon-expand ufru-button dashicons-before dashicons-editor-expand" title="<?php echo __('Open in full screen', 'uploads-for-registered-users'); ?>" js-ufru-open-image></span>
 						</form>
 					</div>
 				<?php } ?>
