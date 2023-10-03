@@ -95,14 +95,14 @@ class UFRUSettingsPage
         );
 
         add_settings_field(
-            'ufru_upload_file_type', // ID
+            'ufru_allowed_file_types', // ID
             'Allowed formats', // Title
             [$this, 'input_allowed_formats_callback'], // Callback
             'ufru-settings-admin', // Page
             'settings_section_general', // Section
             [
-                'name' => 'ufru_upload_file_type',
-                'label_for' => 'ufru_upload_file_type',
+                'name' => 'ufru_allowed_file_types',
+                'label_for' => 'ufru_allowed_file_types',
             ]
         );      
     }
@@ -117,8 +117,8 @@ class UFRUSettingsPage
         if( isset( $input['ufru_max_number_of_uploads'] ) )
             $new_input['ufru_max_number_of_uploads'] = absint( $input['ufru_max_number_of_uploads'] );
 
-        if( isset( $input['ufru_upload_file_type'] ) )
-            $new_input['ufru_upload_file_type'] = sanitize_text_field( $input['ufru_upload_file_type'] );
+        if( isset( $input['ufru_allowed_file_types'] ) )
+            $new_input['ufru_allowed_file_types'] = sanitize_text_field( $input['ufru_allowed_file_types'] );
 
         return $new_input;
     }
@@ -139,8 +139,8 @@ class UFRUSettingsPage
     public function input_allowed_formats_callback() {
         $tip = '<br><small>' . __('Enter file extensions separated by space', 'uploads-for-registered-users') . '</small>';
         printf(
-            '<input type="text" id="ufru_upload_file_type" name="ufru_settings[ufru_upload_file_type]" value="%s" />',
-            (isset( $this->options['ufru_upload_file_type'] ) && !empty($this->options['ufru_upload_file_type'])) ? esc_attr( $this->options['ufru_upload_file_type']) : '.jpg .jpeg .png'
+            '<input type="text" id="ufru_allowed_file_types" name="ufru_settings[ufru_allowed_file_types]" value="%s" />',
+            (isset( $this->options['ufru_allowed_file_types'] ) && !empty($this->options['ufru_allowed_file_types'])) ? esc_attr( $this->options['ufru_allowed_file_types']) : '.jpg .jpeg .png'
         );
         print($tip);
     }
