@@ -4,7 +4,7 @@ function uploads_for_registered_users_menu_page() {
 	add_menu_page(
 		'Uploads For Registered Users',
 		'Uploads',
-		'subscriber',
+		'read',
 		'uploads-for-registered-users',
 		'uploads_for_registered_users',
 		'dashicons-upload',
@@ -20,7 +20,7 @@ function uploads_for_registered_users() {
 	$user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder path
 	$user_folder_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder URL
 
-	// Handle image uploads
+	// Handle file uploads
 	if ( isset( $_POST['submit'] ) ) {
 		$user_id = get_current_user_id();
 		$upload_dir = wp_upload_dir();
@@ -32,16 +32,16 @@ function uploads_for_registered_users() {
 			wp_mkdir_p( $user_folder );
 		}
 
-		if ( ! empty( $_FILES['images']['name'] ) ) {
-			foreach ( $_FILES['images']['name'] as $key => $name ) {
+		if ( ! empty( $_FILES['files']['name'] ) ) {
+			foreach ( $_FILES['files']['name'] as $key => $name ) {
 				if ($current_number_of_files < $max_files) {
-					$image_tmp = $_FILES['images']['tmp_name'][$key];
-					$image_name = sanitize_file_name($name);
-					$target_path = $user_folder . '/' . $image_name;
+					$file_tmp = $_FILES['files']['tmp_name'][$key];
+					$file_name = sanitize_file_name($name);
+					$target_path = $user_folder . '/' . $file_name;
 
 					// Check if the file already exists in the folder
 					if (!file_exists($target_path)) {
-						move_uploaded_file($image_tmp, $target_path);
+						move_uploaded_file($file_tmp, $target_path);
 						$current_number_of_files++; // Increment the count of files in the folder
 					}
 				} else {
@@ -53,75 +53,76 @@ function uploads_for_registered_users() {
 		}
 	}
 
-	// Handle image removal
-	if ( isset( $_POST['remove_image'] ) ) {
-		$image_filename = sanitize_file_name( $_POST['remove_image'] );
-		$image_path = $user_folder . '/' . $image_filename;
+	// Handle file removal
+	if ( isset( $_POST['remove_file'] ) ) {
+		$filename = sanitize_file_name( $_POST['remove_file'] );
+		$file_path = $user_folder . '/' . $filename;
 
-		if ( file_exists( $image_path ) ) {
-			unlink( $image_path ); // Delete the image file
+		if ( file_exists( $file_path ) ) {
+			unlink( $file_path ); // Delete the file
 		}
 	}
 
-	$images = scandir( $user_folder );
-	$images = array_diff( $images, array( '.', '..' ) ); // Remove "." and ".." entries
+	$files = scandir( $user_folder );
+	$files = array_diff( $files, array( '.', '..' ) ); // Remove "." and ".." entries
 	?>
 
 	<div class="wrap">
 		<h2>
-			<?php _e( 'Upload Your Images', 'uploads-for-registered-users' ); ?>
+			<?php _e( 'Upload Your Files', 'uploads-for-registered-users' ); ?>
 		</h2>
 		<p>
-			<?php _e( 'Note: You can select multiple images to upload.', 'uploads-for-registered-users' ); ?>
+			<?php _e( 'Note: You can select multiple files to upload.', 'uploads-for-registered-users' ); ?>
 		</p>
 		<p>
 			<?php _e( 'Max number of uploads:', 'uploads-for-registered-users' ); ?> <?php echo urfu_calculate_max_number_of_uploads(); ?>
 		</p>
-		<form method="post" enctype="multipart/form-data">
-			<input type="file" id="file_upload" accept="image/jpeg, image/png, image/jpg" name="images[]" multiple>
-			<input type="submit" name="submit" value="Upload" js-upload-images-form-submit>
+		<form method="post" enctype="multipart/form-data" js-upload-form>
+			<input type="hidden" id="valid_extensions" value=".jpg .jpeg .png">
+			<input type="file" id="file_upload" name="files[]" multiple>
+			<input type="submit" name="submit" value="Upload" js-upload-files-form-submit>
 		</form>
-		<?php if ( ! empty( $images ) ) : ?>
-			<div class="ufru-upload-images">
+		<?php if ( ! empty( $files ) ) : ?>
+			<div class="ufru-upload-filess">
 				<h3>
-					<?php _e( 'Uploaded Images', 'uploads-for-registered-users' ); ?>
+					<?php _e( 'Uploaded Files', 'uploads-for-registered-users' ); ?>
 				</h3>
-				<div class="ufru-upload-images__wrapper">
-					<?php foreach ( $images as $image ) : ?>
-						<div class="ufru-image-preview">
+				<div class="ufru-upload-files__wrapper">
+					<?php foreach ( $files as $file ) : ?>
+						<div class="ufru-file-preview">
 							<img 
-								src="<?php echo $user_folder_url . '/' . $image; ?>"
-								class="ufru-image-preview__img"
-								alt="Image Preview"
+								src="<?php echo $user_folder_url . '/' . $file; ?>"
+								class="ufru-file-preview__img"
+								alt="File Preview"
 								width="200"
 								loading="lazy"
 							>
 							<form method="post">
-								<input type="hidden" name="remove_image" value="<?php echo $image; ?>">
+								<input type="hidden" name="remove_file" value="<?php echo $file; ?>">
 								<button 
 									class="
-										ufru-image-preview__button
-										ufru-image-preview__button--top-right
-										ufru-image-preview__button-icon-remove
+										ufru-file-preview__button
+										ufru-file-preview__button--top-right
+										ufru-file-preview__button-icon-remove
 										ufru-button
 										dashicons-before
 										dashicons-no
 									"
-									title="<?php _e( 'Delete image', 'uploads-for-registered-users' ); ?>"
+									title="<?php _e( 'Delete file', 'uploads-for-registered-users' ); ?>"
 									type="submit"
 								>
 								</button>
 								<span 
 									class="
-										ufru-image-preview__button 
-										ufru-image-preview__button--bottom-right
-										ufru-image-preview__button-icon-expand
+										ufru-file-preview__button 
+										ufru-file-preview__button--bottom-right
+										ufru-file-preview__button-icon-expand
 										ufru-button
 										dashicons-before
 										dashicons-editor-expand
 									"
 									title="<?php _e( 'Open in full screen', 'uploads-for-registered-users' ); ?>"
-									js-ufru-open-image
+									js-ufru-open-file
 								>
 								</span>
 							</form>

@@ -52,66 +52,66 @@
     min-width: 70px;
 }
 
-.ufru-images-grid {
+.ufru-files-grid {
     display: flex;
     flex-wrap: wrap;
     grid-template-columns: auto auto auto;
     gap: 50px;
 }
 
-.ufru-images-grid__media {
+.ufru-files-grid__media {
     max-width: 250px;
 }
 
-.ufru-images-grid__media img {
+.ufru-files-grid__media img {
     width: 200px;
 }
 
-.ufru-image-preview {
+.ufru-file-preview {
     position: relative;
     display: flex;
 }
 
-.ufru-image-preview img {
+.ufru-file-preview img {
     object-fit: cover;
 }
 
-.ufru-image-preview form {
+.ufru-file-preview form {
     height: 0;
     line-height: 0;
 }
 
-.ufru-upload-images__wrapper {
+.ufru-upload-files__wrapper {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 1rem;
 }
 
-.ufru-image-preview__button {
+.ufru-file-preview__button {
     position: absolute;
     padding: 0;
     cursor: pointer;
 }
 
-.ufru-image-preview__button--top-right {
+.ufru-file-preview__button--top-right {
     top: 2px;
     right: 2px;
 }
 
-.ufru-image-preview__button--bottom-right {
+.ufru-file-preview__button--bottom-right {
     bottom: 2px;
     right: 2px;
 }
 
-.ufru-image-preview__button-icon-remove {
+.ufru-file-preview__button-icon-remove {
     text-decoration: none;
     font-size: 20px;
     color: #a00;
     border-color: #a00;
 }
 
-.ufru-image-preview__button-icon-expand {
+.ufru-file-preview__button-icon-expand {
     font-size: 20px;
     color: #2271b1;
     cursor: pointer;

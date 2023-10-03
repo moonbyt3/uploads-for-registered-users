@@ -72,7 +72,7 @@ if ( get_option( 'users_can_register' ) ) {
 	require_once( plugin_dir_path( __FILE__ ) . '/inc/utils.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/public/uploads.php' );
 	require_once( plugin_dir_path( __FILE__ ) . '/admin/settings.php' );
-	require_once( plugin_dir_path( __FILE__ ) . '/admin/user-images.php' );
+	require_once( plugin_dir_path( __FILE__ ) . '/admin/user-files.php' );
 } else {
 	// User registration is not enabled
 	function ufru_error_registration_disabled() {
