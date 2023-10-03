@@ -38,7 +38,6 @@ function uploads_for_registered_users() {
 				$file_extension = pathinfo($_FILES['files']['name'][$key], PATHINFO_EXTENSION);
             	$file_extension = strtolower($file_extension);
 
-				var_dump($file_extension, $allowed_file_formats);
 				if (in_array($file_extension, explode(' ', $allowed_file_formats))) {
 					$file_tmp = $_FILES['files']['tmp_name'][$key];
 					$file_name = sanitize_file_name($name);
