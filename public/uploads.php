@@ -27,6 +27,7 @@ function uploads_for_registered_users() {
 		$user_folder = $upload_dir['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
 		$current_number_of_files = count(glob($user_folder . '/*')); // Count existing files in the folder
 		$max_files = urfu_calculate_max_number_of_uploads();
+		$allowed_file_formats = get_option('ufru_settings')['ufru_allowed_file_types'];
 
 		if ( ! file_exists( $user_folder ) ) {
 			wp_mkdir_p( $user_folder );
@@ -34,18 +35,37 @@ function uploads_for_registered_users() {
 
 		if ( ! empty( $_FILES['files']['name'] ) ) {
 			foreach ( $_FILES['files']['name'] as $key => $name ) {
-				if ($current_number_of_files < $max_files) {
+				$file_extension = pathinfo($_FILES['files']['name'][$key], PATHINFO_EXTENSION);
+            	$file_extension = strtolower($file_extension);
+
+				var_dump($file_extension, $allowed_file_formats);
+				if (in_array($file_extension, explode(' ', $allowed_file_formats))) {
 					$file_tmp = $_FILES['files']['tmp_name'][$key];
 					$file_name = sanitize_file_name($name);
 					$target_path = $user_folder . '/' . $file_name;
 
-					// Check if the file already exists in the folder
-					if (!file_exists($target_path)) {
-						move_uploaded_file($file_tmp, $target_path);
-						$current_number_of_files++; // Increment the count of files in the folder
+					// Check if user passed max number of upload files
+					if ($current_number_of_files < $max_files) {
+						// Check if the file already exists in the folder
+						if (!file_exists($target_path)) {
+							// Check if file is image
+							if (is_array(@getimagesize($target_path))) {
+								$file_info = wp_check_filetype($target_path);
+								if (strpos($file_info['type'], 'image/') === 0) {
+									move_uploaded_file($file_tmp, $target_path);
+									$current_number_of_files++;
+								}
+							}
+							move_uploaded_file($file_tmp, $target_path);
+							$current_number_of_files++; // Increment the count of files in the folder
+						}
+					} else {
+						$errorMsg = '<div class="error notice">' . __('Error: You have reached the maximum number of allowed uploads.', 'uploads-for-registered-users') .  '</div>';
+						wp_die($errorMsg);
+						break;
 					}
 				} else {
-					$errorMsg = '<div class="error notice">' . __('Maximum number of uploads reached', 'uploads-for-registered-users') .  '</div>';
+					$errorMsg =  '<div class="error notice">' . __("Error: File format not supported: .$file_extension", 'uploads-for-registered-users') .  '</div>';
 					wp_die($errorMsg);
 					break;
 				}
