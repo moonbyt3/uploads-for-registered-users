@@ -91,7 +91,7 @@ class User_Files_List_Table extends WP_List_Table {
 								type="submit"
 								id="submit"
 							></button>
-							<span class="ufru-file-preview__button ufru-file-preview__button--bottom-right ufru-file-preview__button-icon-expand ufru-button dashicons-before dashicons-editor-expand" title="<?php echo __('Open in full screen', 'uploads-for-registered-users'); ?>" js-ufru-open-file></span>
+							<span class="ufru-file-preview__button ufru-file-preview__button--bottom-right ufru-file-preview__button-icon-expand ufru-button dashicons-before dashicons-editor-expand" title="<?php echo __('Open file in new tab', 'uploads-for-registered-users'); ?>" js-ufru-open-file></span>
 						</form>
 					</div>
 				<?php } ?>

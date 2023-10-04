@@ -114,7 +114,7 @@ function uploads_for_registered_users() {
 							?>
 							<img 
 								src="<?php echo $fileUrl; ?>"
-								onerror="this.onerror=null;this.src='https\:\/\/placehold.co/200x200?text=File <?php echo $file . '\''; ?>"
+								onerror="this.onerror=null;this.src='https\:\/\/placehold.co/200x200?text=File:\\n<?php echo $file . '\''; ?>"
 								data-url="<?php echo $fileUrl; ?>"
 								class="ufru-file-preview__img"
 								alt="File Preview"
@@ -145,7 +145,7 @@ function uploads_for_registered_users() {
 										dashicons-before
 										dashicons-editor-expand
 									"
-									title="<?php _e( 'Open in full screen', 'uploads-for-registered-users' ); ?>"
+									title="<?php _e( 'Open file in new tab', 'uploads-for-registered-users' ); ?>"
 									js-ufru-open-file
 								>
 								</span>
