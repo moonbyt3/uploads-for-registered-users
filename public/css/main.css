@@ -44,6 +44,12 @@
     padding: 5px 10px;
 }
 
+.ufru-upload-form__submit-btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 .ufru-table__row-cell {
     min-width: 150px;
 }

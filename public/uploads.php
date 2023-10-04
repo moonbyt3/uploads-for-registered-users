@@ -96,10 +96,16 @@ function uploads_for_registered_users() {
 		<p>
 			<?php _e( 'Max number of uploads:', 'uploads-for-registered-users' ); ?> <?php echo urfu_calculate_max_number_of_uploads(); ?>
 		</p>
-		<form method="post" enctype="multipart/form-data" js-upload-form>
-			<input type="hidden" id="valid_extensions" value=".jpg .jpeg .png">
-			<input type="file" id="file_upload" name="files[]" multiple>
-			<input type="submit" name="submit" value="Upload" js-upload-files-form-submit>
+		<form 
+			class="ufru-upload-form"
+			method="post"
+			enctype="multipart/form-data"
+			js-upload-form
+		>
+			<input type="file" class="bfi" id="file_upload" name="files[]" multiple>
+			<div class="ufru-upload-form__submit-btn">
+				<input type="submit" class="button button-primary" name="submit" value="Upload File(s)" js-upload-files-form-submit>
+			</div>
 		</form>
 		<?php if ( ! empty( $files ) ) : ?>
 			<div class="ufru-upload-filess">
