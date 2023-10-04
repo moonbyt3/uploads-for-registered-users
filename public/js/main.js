@@ -7,7 +7,7 @@ jQuery(document).ready(function ($) {
             button.addEventListener('click', () => {
                 var nearestFile = button.closest('.ufru-file-preview').querySelector('img');
                 if (nearestFile) {
-                    window.open(nearestFile.src, '_blank');
+                    window.open(nearestFile.dataset.url, '_blank');
                 }
             });
         });

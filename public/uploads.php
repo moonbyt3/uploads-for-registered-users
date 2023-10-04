@@ -109,8 +109,13 @@ function uploads_for_registered_users() {
 				<div class="ufru-upload-files__wrapper">
 					<?php foreach ( $files as $file ) : ?>
 						<div class="ufru-file-preview">
+							<?php
+								$fileUrl = $user_folder_url . '/' . $file;
+							?>
 							<img 
-								src="<?php echo $user_folder_url . '/' . $file; ?>"
+								src="<?php echo $fileUrl; ?>"
+								onerror="this.onerror=null;this.src='https\:\/\/placehold.co/200x200?text=File <?php echo $file . '\''; ?>"
+								data-url="<?php echo $fileUrl; ?>"
 								class="ufru-file-preview__img"
 								alt="File Preview"
 								width="200"
@@ -153,4 +158,29 @@ function uploads_for_registered_users() {
 	</div>
 
 	<?php
+}
+
+function isImageOrSvg($filePath) {
+    // Get the image information
+    $imageInfo = @getimagesize($filePath);
+
+    if ($imageInfo === false) {
+        // The file is not a valid image
+        return false;
+    }
+
+    // Check the MIME type
+    $mime = $imageInfo['mime'];
+
+    // List of valid image and SVG MIME types
+    $validMimeTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/gif',
+        'image/bmp',
+        'image/svg+xml',
+    ];
+
+    // Check if the MIME type is in the list of valid types
+    return in_array($mime, $validMimeTypes);
 }

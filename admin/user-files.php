@@ -57,6 +57,7 @@ class User_Files_List_Table extends WP_List_Table {
 
 		$file_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
         $file = array_diff(scandir($user_uploads_folder), array('..', '.'));
+        $user_folder_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder URL
         
 		if (!empty($file)) {
 			ob_start(); ?>
@@ -66,8 +67,13 @@ class User_Files_List_Table extends WP_List_Table {
 				foreach ($file as $file) { 
 				?>
 					<div class="ufru-file-preview">
+                        <?php
+                            $fileUrl = $user_folder_url . '/' . $file;
+                        ?>
 						<img
                             src="<?php echo $file_url . '/' . $file ?>"
+                            onerror="this.onerror=null;this.src='https\:\/\/placehold.co/200x200?text=File <?php echo $file . '\''; ?>"
+                            data-url="<?php echo $fileUrl; ?>"
                             class="ufru-file-preview__img"
                             alt="User File"
                             width="200"
