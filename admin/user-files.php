@@ -79,6 +79,7 @@ class User_Files_List_Table extends WP_List_Table {
                             width="200"
                             height="200"
                             loading="lazy"
+                            title="<?php echo $file; ?>"
                         >
 						<form method="post">
 							<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />

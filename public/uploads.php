@@ -120,6 +120,7 @@ function uploads_for_registered_users() {
 								alt="File Preview"
 								width="200"
 								loading="lazy"
+								title="<?php echo $file; ?>"
 							>
 							<form method="post">
 								<input type="hidden" name="remove_file" value="<?php echo $file; ?>">
