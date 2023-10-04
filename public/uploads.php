@@ -119,6 +119,7 @@ function uploads_for_registered_users() {
 								class="ufru-file-preview__img"
 								alt="File Preview"
 								width="200"
+								height="200"
 								loading="lazy"
 								title="<?php echo $file; ?>"
 							>
