@@ -28,10 +28,11 @@ class UFRUSettingsPage
     public function create_admin_page() {
         // Set class property
         $this->options = get_option( 'ufru_settings' );
-        
+
         ?>
         <div class="wrap">
             <h1>UFRU <?php _e('Settings', 'uploads-for-registered-users'); ?></h1>
+
             <form method="post" action="options.php">
                 <?php
                     // This prints out all hidden setting fields
@@ -42,20 +43,6 @@ class UFRUSettingsPage
             </form>
 
             <div class="wrap">
-                <h2>Debug</h2>
-                <p>
-                    <?php 
-                        $maxFileUploads = ini_get('max_file_uploads'); 
-                        $clientMaxBodySize = ini_get('client_max_body_size');
-                        $debugOptions = get_option( 'ufru_max_number_of_uploads' );
-                    ?>
-                    Server Max File Uploads: <?php echo $maxFileUploads; ?>
-                    <br>
-                    Server Client Max Body Size: <?php echo $clientMaxBodySize; ?>
-                    <br>
-                    Debug options: <?php echo $debugOptions; ?>
-                </p>
-                <br><br>
                 <p>TODO: Scan for deleted users</p>
                 <form method="post">
                     <button type="submit">Scan</button>
@@ -104,7 +91,19 @@ class UFRUSettingsPage
                 'name' => 'ufru_allowed_file_types',
                 'label_for' => 'ufru_allowed_file_types',
             ]
-        );      
+        );
+
+        add_settings_field(
+            'ufru_max_file_size', // ID
+            'Maximum file size', // Title
+            [$this, 'input_max_file_size_callback'], // Callback
+            'ufru-settings-admin', // Page
+            'settings_section_general', // Section
+            [
+                'name' => 'ufru_max_file_size',
+                'label_for' => 'ufru_max_file_size',
+            ]
+        );
     }
 
     /**
@@ -119,6 +118,9 @@ class UFRUSettingsPage
 
         if( isset( $input['ufru_allowed_file_types'] ) )
             $new_input['ufru_allowed_file_types'] = sanitize_text_field( $input['ufru_allowed_file_types'] );
+
+        if( isset( $input['ufru_max_file_size'] ) )
+            $new_input['ufru_max_file_size'] = (int)$input['ufru_max_file_size'];
 
         return $new_input;
     }
@@ -137,10 +139,22 @@ class UFRUSettingsPage
      * Get the settings option array and print one of its values
      */
     public function input_allowed_formats_callback() {
-        $tip = '<br><p>' . __('Enter file extensions separated by space, for example: ', 'uploads-for-registered-users') . '<code>jpg jpeg png</code></p>';
+        $tip = '<br><p>' . __('Enter file extensions separated by space, for example: ', 'uploads-for-registered-users') . ' <code>jpg jpeg png</code></p>';
         printf(
             '<input type="text" id="ufru_allowed_file_types" name="ufru_settings[ufru_allowed_file_types]" value="%s" />',
             (isset( $this->options['ufru_allowed_file_types'] ) && !empty($this->options['ufru_allowed_file_types'])) ? esc_attr( $this->options['ufru_allowed_file_types']) : 'jpg jpeg png'
+        );
+        print($tip);
+    }
+
+    public function input_max_file_size_callback() {
+        $value = (isset( $this->options['ufru_max_file_size'] ) && !empty($this->options['ufru_max_file_size'])) ? $this->options['ufru_max_file_size'] : 2097152;
+        $value = intval($value); // Ensure the value is an integer representing megabytes.
+        $tip = '<br><p>' . __('Value should be represented in bytes, for example:', 'uploads-for-registered-users') . ' <code>2097152 = 2MB</code></p>';
+
+        printf(
+            '<input type="number" id="ufru_max_file_size" name="ufru_settings[ufru_max_file_size]" max="'. ufru_get_file_max_upload_size() .'" value="%d" />',
+            esc_attr($value)
         );
         print($tip);
     }

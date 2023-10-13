@@ -96,17 +96,20 @@ function uploads_for_registered_users() {
 		<p>
 			<?php _e( 'Max number of uploads:', 'uploads-for-registered-users' ); ?> <?php echo urfu_calculate_max_number_of_uploads(); ?>
 		</p>
-		<form 
-			class="ufru-upload-form"
-			method="post"
-			enctype="multipart/form-data"
-			js-upload-form
-		>
-			<input type="file" class="bfi" id="file_upload" name="files[]" multiple>
-			<div class="ufru-upload-form__submit-btn">
-				<input type="submit" class="button button-primary" name="submit" value="Upload File(s)" js-upload-files-form-submit>
-			</div>
-		</form>
+		<!-- Check if user uploaded max amount of files -->
+		<?php if (!(count($files) >= urfu_calculate_max_number_of_uploads())) : ?>
+			<form 
+				class="ufru-upload-form"
+				method="post"
+				enctype="multipart/form-data"
+				js-upload-form
+			>
+				<input type="file" class="bfi" id="file_upload" name="files[]" multiple>
+				<div class="ufru-upload-form__submit-btn">
+					<input type="submit" class="button button-primary" name="submit" value="Upload File(s)" js-upload-files-form-submit>
+				</div>
+			</form>
+		<?php endif; ?>
 		<?php if ( ! empty( $files ) ) : ?>
 			<div class="ufru-upload-filess">
 				<h3>

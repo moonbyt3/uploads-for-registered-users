@@ -60,6 +60,7 @@ if ( get_option( 'users_can_register' ) ) {
 		wp_enqueue_script( 'jquery' );
 
 		wp_enqueue_script( 'ufru-bfi-js', plugin_dir_url( __FILE__ ) . 'public/js/bfi.js', [], '1.0', true );
+		wp_localize_script( 'ufru-bfi-js', 'pluginSettings', get_option( 'ufru_settings' ));
 		wp_enqueue_script( 'ufru-main-js', plugin_dir_url( __FILE__ ) . 'public/js/main.js', [ 'jquery' ], '1.0', true );
 	}
 

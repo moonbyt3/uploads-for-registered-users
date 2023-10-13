@@ -122,6 +122,14 @@ window.addEventListener('drop', e => {
 	}
 });
 
+function bytesToSize(bytes) {
+	const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+	if (bytes === 0) return 'n/a'
+	const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10)
+	if (i === 0) return `${bytes} ${sizes[i]}`
+	return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`
+}
+
 // Watch for file updates
 document.addEventListener('change', e => {
 	if (e.target.classList.contains('bfi-converted')) {
@@ -144,27 +152,39 @@ document.addEventListener('change', e => {
 			container.querySelector('.bfi-label').style.display = 'none';
 			container.querySelector('.bfi-label-selected').style.display = '';
 			container.querySelectorAll('.bfi-file').forEach(el => { el.remove(); });
+
+			const {ufru_max_file_size} = pluginSettings; // Localized variable from WordPress
+
 			let files = [];
 			for (let i = 0; i < e.target.files.length; i++) {
-                console.log(e.target.files[i]);
-				files.push({
-					'name': e.target.files[i].name,
-					'size': Number(e.target.files[i].size / 1000).toFixed(1) + ' KB',
-                    'url': URL.createObjectURL(e.target.files[i])
-				});
+                let file = e.target.files[i];
+                if (file.size <= ufru_max_file_size) { // Check if file size is less than or equal to 2 megabytes
+                    files.push({
+                        'name': file.name,
+                        'size': Number(file.size / 1000).toFixed(1) + ' KB',
+                        'url': URL.createObjectURL(file)
+                    });
+                } else {
+                    alert(`File "${file.name}" exceeds the ${bytesToSize(ufru_max_file_size)} size limit and will not be uploaded.`);
+                }
 			}
-			let fileCount = '1 file';
-			if (files.length > 1) fileCount = `${files.length} files`;
-			container.querySelector('.bfi-label-selected').innerHTML = `${fileCount} selected. <span class="bfi-clear" tabindex="0">Undo</span>`;
-			files.forEach(file => {
-				filesContainer.insertAdjacentHTML('beforeend', `
-                    <div class="bfi-file">
-                        <img src="${file.url}" onerror="this.onerror=null;this.src='https\:\/\/placehold.co/200x200?text=File:\\n${file.name}' "width="130" height="130" style="object-fit: cover;"/> <br>
-                        ${file.name}<br>
-                        <i>${file.size}</i>
-                    </div>
-                `);
-			});
+			if (files.length > 0) {
+				let fileCount = '1 file';
+				if (files.length > 1) fileCount = `${files.length} files`;
+				container.querySelector('.bfi-label-selected').innerHTML = `${fileCount} selected. <span class="bfi-clear" tabindex="0">Undo</span>`;
+				files.forEach(file => {
+					filesContainer.insertAdjacentHTML('beforeend', `
+						<div class="bfi-file">
+							<img src="${file.url}" onerror="this.onerror=null;this.src='https\:\/\/placehold.co/200x200?text=File:\\n${file.name}' "width="130" height="130" style="object-fit: cover;"/> <br>
+							${file.name}<br>
+							<i>${file.size}</i>
+						</div>
+					`);
+				});
+			} else {
+				container.querySelector('.bfi-label').style.display = 'block';
+				container.querySelector('.bfi-label-selected').style.display = 'none';
+			}
 		} else {
 			container.querySelector('.bfi-label').style.display = '';
 			container.querySelector('.bfi-label-selected').style.display = 'none';
