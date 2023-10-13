@@ -111,6 +111,7 @@ function uploads_for_registered_users() {
 			<div class="ufru-upload-filess">
 				<h3>
 					<?php _e( 'Uploaded Files', 'uploads-for-registered-users' ); ?>
+					<span>(<?php echo count($files); ?> /  <?php echo urfu_calculate_max_number_of_uploads(); ?>)</span>
 				</h3>
 				<div class="ufru-upload-files__wrapper">
 					<?php foreach ( $files as $file ) : ?>
