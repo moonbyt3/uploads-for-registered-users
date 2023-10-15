@@ -50,6 +50,11 @@
     width: 100%;
 }
 
+.ufru-form-scan-folder__item {
+    display: block;
+    margin-bottom: 1rem;
+}
+
 .ufru-table__row-cell {
     min-width: 150px;
 }
