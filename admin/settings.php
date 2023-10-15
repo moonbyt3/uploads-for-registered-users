@@ -119,8 +119,13 @@ class UFRUSettingsPage
         if( isset( $input['ufru_allowed_file_types'] ) )
             $new_input['ufru_allowed_file_types'] = sanitize_text_field( $input['ufru_allowed_file_types'] );
 
-        if( isset( $input['ufru_max_file_size'] ) )
-            $new_input['ufru_max_file_size'] = (int)$input['ufru_max_file_size'];
+        if( isset( $input['ufru_max_file_size'] ) && (int)$input['ufru_max_file_size'] == $input['ufru_max_file_size'] ) {
+            $new_input['ufru_max_file_size'] = $input['ufru_max_file_size'];
+        } else {
+            $errorMsg = '<div class="error notice">' . __('Error: Max file size is not a number.', 'uploads-for-registered-users') .  '</div>';
+            wp_die($errorMsg);
+        }
+            
 
         return $new_input;
     }
