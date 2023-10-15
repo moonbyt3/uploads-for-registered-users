@@ -16,7 +16,7 @@ function uploads_for_registered_users() {
 	$plugin_name = 'ufru';
 	$current_user = wp_get_current_user();
 	$user_id = $current_user->ID;
-	$user_name = preg_replace('/\s+/', '_', $current_user->display_name);
+	$user_name = preg_replace('/\s+/', '_', $current_user->user_login);
 	$user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder path
 	$user_folder_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder URL
 
@@ -82,8 +82,12 @@ function uploads_for_registered_users() {
 		}
 	}
 
-	$files = scandir( $user_folder );
-	$files = array_diff( $files, array( '.', '..' ) ); // Remove "." and ".." entries
+	// Check if user directory exists
+	if (is_dir($user_folder)) {
+		$files = scandir( $user_folder );
+		$files = array_diff( $files, array( '.', '..' ) ); // Remove "." and ".." entries
+	}
+
 	?>
 
 	<div class="wrap">
@@ -96,20 +100,17 @@ function uploads_for_registered_users() {
 		<p>
 			<?php _e( 'Max number of uploads:', 'uploads-for-registered-users' ); ?> <?php echo urfu_calculate_max_number_of_uploads(); ?>
 		</p>
-		<!-- Check if user uploaded max amount of files -->
-		<?php if (!(count($files) >= urfu_calculate_max_number_of_uploads())) : ?>
-			<form 
-				class="ufru-upload-form"
-				method="post"
-				enctype="multipart/form-data"
-				js-upload-form
-			>
-				<input type="file" class="bfi" id="file_upload" name="files[]" multiple>
-				<div class="ufru-upload-form__submit-btn">
-					<input type="submit" class="button button-primary" name="submit" value="Upload File(s)" js-upload-files-form-submit>
-				</div>
-			</form>
-		<?php endif; ?>
+		<form 
+			class="ufru-upload-form"
+			method="post"
+			enctype="multipart/form-data"
+			js-upload-form
+		>
+			<input type="file" class="bfi" id="file_upload" name="files[]" multiple>
+			<div class="ufru-upload-form__submit-btn">
+				<input type="submit" class="button button-primary" name="submit" value="Upload File(s)" js-upload-files-form-submit>
+			</div>
+		</form>
 		<?php if ( ! empty( $files ) ) : ?>
 			<div class="ufru-upload-filess">
 				<h3>
@@ -170,29 +171,4 @@ function uploads_for_registered_users() {
 	</div>
 
 	<?php
-}
-
-function isImageOrSvg($filePath) {
-    // Get the image information
-    $imageInfo = @getimagesize($filePath);
-
-    if ($imageInfo === false) {
-        // The file is not a valid image
-        return false;
-    }
-
-    // Check the MIME type
-    $mime = $imageInfo['mime'];
-
-    // List of valid image and SVG MIME types
-    $validMimeTypes = [
-        'image/jpeg',
-        'image/png',
-        'image/gif',
-        'image/bmp',
-        'image/svg+xml',
-    ];
-
-    // Check if the MIME type is in the list of valid types
-    return in_array($mime, $validMimeTypes);
 }

@@ -50,13 +50,6 @@ class UFRUSettingsPage
                     submit_button();
                 ?>
             </form>
-
-            <div class="wrap">
-                <p>TODO: Scan for deleted users</p>
-                <form method="post">
-                    <button type="submit">Scan</button>
-                </form>
-            </div>
         </div>
         <?php
     }
