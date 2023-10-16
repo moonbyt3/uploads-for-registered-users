@@ -1,7 +1,7 @@
 <?php
 // Add an admin menu page to list users and their files
 function user_files_admin_page() {
-    if (is_user_admin()) {
+    if (current_user_can( 'manage_options' )) {
         add_submenu_page(
             'uploads-for-registered-users',
             'User Files',
