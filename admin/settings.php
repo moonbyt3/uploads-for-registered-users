@@ -1,6 +1,5 @@
 <?php
-class UFRUSettingsPage
-{
+class UFRUSettingsPage {
     private $options;
 
     public function __construct() {
@@ -97,20 +96,28 @@ class UFRUSettingsPage
                 'label_for' => 'ufru_max_file_size',
             ]
         );
-        
 
-        // Folder scan functionality
-        register_setting(
-            'ufru_folder_scan', // Option group
-            'ufru_folder_scan', // Option name
+        add_settings_field(
+            'ufru_allowed_roles_to_upload_files', // ID
+            'Allowed users', // Title
+            [$this, 'allowed_users_callback'], // Callback
+            'ufru-settings-admin', // Page
+            'settings_section_general', // Section
+            [
+                'name' => 'ufru_allowed_roles_to_upload_files',
+                'label_for' => 'ufru_allowed_roles_to_upload_files',
+            ]
         );
 
-        add_settings_section(
-            'settings_section_folder_scan', // ID
-            'Folder Scan', // Title
-            null, // Callback
-            'ufru-settings-admin-folder-scan' // Page
-        );
+        $all_options = get_option( 'ufru_settings' );
+
+        if (!isset($all_options['ufru_allowed_roles_to_upload_files'])) {
+            $all_options['ufru_allowed_roles_to_upload_files'] = [
+                'subscriber'
+            ];
+
+            update_option('ufru_settings', $all_options);
+        }
     }
 
     /**
@@ -132,7 +139,8 @@ class UFRUSettingsPage
             $errorMsg = '<div class="error notice">' . __('Error: Max file size is not a number.', 'uploads-for-registered-users') .  '</div>';
             wp_die($errorMsg);
         }
-            
+        if( isset( $input['ufru_allowed_roles_to_upload_files'] ) )
+            $new_input['ufru_allowed_roles_to_upload_files'] = $input['ufru_allowed_roles_to_upload_files'];
 
         return $new_input;
     }
@@ -169,6 +177,29 @@ class UFRUSettingsPage
             esc_attr($value)
         );
         print($tip);
+    }
+
+    public function allowed_users_callback() {
+        $selected_roles = $this->options['ufru_allowed_roles_to_upload_files'];
+        $all_roles = get_editable_roles();
+        ?>
+            <div>
+                <?php foreach ($all_roles as $role_key => $role_data) : ?>
+                    <label for="role_<?php echo esc_attr($role_key); ?>">
+                        <input
+                            type="checkbox"
+                            id="role_<?php echo esc_attr($role_key); ?>"
+                            name="ufru_settings[ufru_allowed_roles_to_upload_files][]"
+                            value="<?php echo esc_attr($role_key); ?>"
+                            <?php echo (in_array($role_key, $selected_roles) ? 'checked' : ''); ?>
+
+                            /> 
+                            <?php echo esc_html($role_data['name']); ?>
+                    </label>
+                    <br>
+                <?php endforeach; ?>
+            </div>
+        <?php
     }
 }
 
