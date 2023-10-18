@@ -16,23 +16,6 @@ if(!class_exists('WP_List_Table')){
     require_once( ABSPATH . 'wp-admin/includes/screen.php' );
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
-
-if ( isset( $_POST['user_id'] ) ) {
-	$plugin_name = 'ufru';
-	$user_id = $_POST['user_id'];
-	$user_name = $_POST['user_name'];
-
-	$user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder path
-	$filename = sanitize_file_name( $_POST['remove_file'] );
-	
-	$file_path = $user_folder . '/' . $filename;
-
-	// Delete the file
-	if ( file_exists( $file_path ) ) {
-		unlink( $file_path );
-	}
-}
-
 // Admin page content
 class User_Files_List_Table extends WP_List_Table {
     public function __construct() {
@@ -47,6 +30,38 @@ class User_Files_List_Table extends WP_List_Table {
         return $item[$column_name];
     }
 
+    public function column_user_login($item) {
+        $user_name = $item['user_login'];
+        $confirmationQuestion = sprintf( __( 'This will delete files for user: %s', 'uploads-for-registered-users' ), $user_name );
+        $actions = [
+            'delete'    => sprintf('<a href="?page=%s&action=delete&folder=%s" onclick="return confirm(\'' . $confirmationQuestion . '\')">%s</a>', $_REQUEST['page'], $item['user_id'] . '_' . $item['user_login'], __('Delete All Files', 'uploads-for-registered-users')),
+        ];
+        return sprintf('%1$s %2$s', $item['user_login'], $this->row_actions($actions) );
+    }
+
+    /**
+     * Delete all files from specified folder
+     *
+     * @param string $folder Path of the folder to delete
+     */
+    public function delete_all_user_files($folder) {
+        $plugin_name = 'ufru';
+        $user_uploads_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $folder;
+
+        var_dump($_GET);
+
+        
+        // Delete the file
+        if ( file_exists( $user_uploads_folder ) ) {
+            // Delete the file
+            require_once ( ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php' );
+            require_once ( ABSPATH . 'wp-admin/includes/class-wp-filesystem-direct.php' );
+            $fileSystemDirect = new WP_Filesystem_Direct(false);
+            $fileSystemDirect->rmdir($user_uploads_folder, true);
+        }
+
+        wp_redirect('/wp-admin/admin.php?page=user_files');
+    }
 
     public function column_uploaded_files($item) {
 		$plugin_name = 'ufru';
@@ -109,7 +124,7 @@ class User_Files_List_Table extends WP_List_Table {
     public function get_columns() {
         $columns = array(
             'user_id' => __('User ID', 'uploads-for-registered-users'),
-            'user_login' => __('Username', 'uploads-for-registered-users'),
+            'user_login' => __('User Name', 'uploads-for-registered-users'),
             'uploaded_files' => __('Uploaded Files', 'uploads-for-registered-users'),
         );
         return $columns;
@@ -118,7 +133,7 @@ class User_Files_List_Table extends WP_List_Table {
     public function prepare_items() {
         $this->_column_headers = [
 			$this->get_columns(),
-			array(),
+			[],
 			$this->get_sortable_columns(),
 		];
         $data = $this->get_user_files_data();
@@ -132,6 +147,7 @@ class User_Files_List_Table extends WP_List_Table {
         ));
 
         $this->items = array_slice($data, ($current_page - 1) * $per_page, $per_page);
+        $this->process_bulk_action();
     }
 
     private function get_user_files_data() {
@@ -156,6 +172,20 @@ class User_Files_List_Table extends WP_List_Table {
         }
 
         return $data;
+    }
+
+    public function process_bulk_action() {
+        $action = $this->current_action();
+        switch ( $action ) {
+            case 'delete':
+                $folder_to_delete = $_GET['folder'];
+                $this->delete_all_user_files($folder_to_delete);
+                break;
+            default:
+                return;
+                break;
+        }
+        return;
     }
 }
 
