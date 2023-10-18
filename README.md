@@ -12,7 +12,7 @@
 
 # Screenshots
 ### Regular user with Subscriber role:
-![image-upload-files](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/fab3ef81-16d0-4511-872e-c6d101865d2b)
+![image-upload-files](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/078e95bd-dd0a-4827-83cc-5261563ce5a7)
 
 ### Admin - Settings screen:
 ![image-admin-settings](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/2057e13a-d140-4835-8582-d87613c0712b)
