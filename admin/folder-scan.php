@@ -62,6 +62,9 @@ class UFRUFolderScan {
 							system( "rm -rf " . escapeshellarg( $folder_path ) );
 
 							echo '<div class="notice notice-success">' . esc_html__( 'Folder in path:', 'uploads-for-registered-users' ) . ' ' . esc_html( $folder_path ) . ' ' . esc_html__( 'has been deleted.', 'uploads-for-registered-users' ) . '</div>';
+						} else {
+							$errorMsg = '<div class="error notice">' . __('Error: Folder can not be created.', 'uploads-for-registered-users') .  '</div>';
+							wp_die($errorMsg);
 						}
 					}
 				}
