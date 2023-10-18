@@ -31,7 +31,7 @@ class UFRUFolderScan {
 		foreach ( $registered_users as $user ) {
 			// Get user ID and user login (username)
 			$user_id = $user->ID;
-			$user_name = $user->user_login;
+			$user_name = str_replace(' ', '_', $user->user_login);
 
 			// Create the element in the format "userId_userName"
 			$element = $user_id . '_' . $user_name;
