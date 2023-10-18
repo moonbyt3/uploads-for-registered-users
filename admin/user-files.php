@@ -143,7 +143,7 @@ class User_Files_List_Table extends WP_List_Table {
         foreach ($blogusers as $user) {
 			$plugin_name = 'ufru';
             $user_id = $user->ID;
-			$user_name = preg_replace('/\s+/', '_', $user->display_name);
+			$user_name = preg_replace('/\s+/', '_', $user->user_login);
             $user_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
 
             if (is_dir($user_folder)) {
@@ -151,7 +151,7 @@ class User_Files_List_Table extends WP_List_Table {
                 if (!empty($file)) {
                     $data[] = array(
                         'user_id' => $user_id,
-                        'user_login' => $user->display_name,
+                        'user_login' => $user->user_login,
                     );
                 }
             }
