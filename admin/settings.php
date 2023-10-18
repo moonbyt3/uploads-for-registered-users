@@ -128,13 +128,13 @@ class UFRUSettingsPage {
     public function sanitize( $input ) {
         $new_input = [];
         if( isset( $input['ufru_max_number_of_uploads'] ) )
-            $new_input['ufru_max_number_of_uploads'] = absint( $input['ufru_max_number_of_uploads'] );
+            $new_input['ufru_max_number_of_uploads'] = absint($input['ufru_max_number_of_uploads']);
 
         if( isset( $input['ufru_allowed_file_types'] ) )
             $new_input['ufru_allowed_file_types'] = sanitize_text_field( $input['ufru_allowed_file_types'] );
 
         if( isset( $input['ufru_max_file_size'] ) && (int)$input['ufru_max_file_size'] == $input['ufru_max_file_size'] ) {
-            $new_input['ufru_max_file_size'] = $input['ufru_max_file_size'];
+            $new_input['ufru_max_file_size'] = sanitize_text_field( $input['ufru_max_file_size'] );
         } else {
             $errorMsg = '<div class="error notice">' . __('Error: Max file size is not a number.', 'uploads-for-registered-users') .  '</div>';
             wp_die($errorMsg);
@@ -192,9 +192,8 @@ class UFRUSettingsPage {
                             name="ufru_settings[ufru_allowed_roles_to_upload_files][]"
                             value="<?php echo esc_attr($role_key); ?>"
                             <?php echo (in_array($role_key, $selected_roles) ? 'checked' : ''); ?>
-
-                            /> 
-                            <?php echo esc_html($role_data['name']); ?>
+                        /> 
+                        <?php echo esc_html($role_data['name']); ?>
                     </label>
                     <br>
                 <?php endforeach; ?>
