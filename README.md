@@ -14,13 +14,13 @@
 ### Regular user with Subscriber role:
 ![image-upload-files](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/fab3ef81-16d0-4511-872e-c6d101865d2b)
 
-### Admin settings screen:
+### Admin - Settings screen:
 ![image-admin-settings](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/2057e13a-d140-4835-8582-d87613c0712b)
 
-### Admin All users uploads screen
-![image-admin-user-](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/3daf288b-1178-4344-8e53-ca52723decb1)
+### Admin - All Users' Uploads screen
+![image-admin-users-uploads](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/5404a371-5cb7-44d2-b73c-ed224ce4a606)
 
-### Admin - Folder Scan
+### Admin - Folder Scan screen
 ![image](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/9c9440ae-ef5b-45ad-ba7c-73e65064af04)
 
 
