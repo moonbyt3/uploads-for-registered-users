@@ -128,7 +128,7 @@ class UFRUSettingsPage {
     public function sanitize( $input ) {
         $new_input = [];
         if( isset( $input['ufru_max_number_of_uploads'] ) )
-            $new_input['ufru_max_number_of_uploads'] = absint($input['ufru_max_number_of_uploads']);
+            $new_input['ufru_max_number_of_uploads'] = absint( $input['ufru_max_number_of_uploads'] );
 
         if( isset( $input['ufru_allowed_file_types'] ) )
             $new_input['ufru_allowed_file_types'] = sanitize_text_field( $input['ufru_allowed_file_types'] );
