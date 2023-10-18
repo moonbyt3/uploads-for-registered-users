@@ -124,7 +124,7 @@ class User_Files_List_Table extends WP_List_Table {
 			$this->get_sortable_columns(),
 		];
         $data = $this->get_user_files_data();
-        $per_page = 10;
+        $per_page = 8;
         $current_page = $this->get_pagenum();
         $total_items = count($data);
 
