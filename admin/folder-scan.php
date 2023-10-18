@@ -14,14 +14,14 @@ class UFRUFolderScan {
 			'Folder Scan',
 			'manage_options',
 			'ufru-settings-admin-folder-scan',
-			[ $this, 'create_admin_page_folder_scan' ]
+			[ $this, 'add_page_folder_scan' ]
 		);
     }
 
 	/**
 	 * Folder scan page callback
 	 */
-	public function create_admin_page_folder_scan() {
+	public function add_page_folder_scan() {
 		// Get the list of registered users
 		$registered_users = get_users();
 

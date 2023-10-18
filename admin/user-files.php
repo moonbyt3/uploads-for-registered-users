@@ -1,6 +1,6 @@
 <?php
 // Add an admin menu page to list users and their files
-function user_files_admin_page() {
+function add_page_user_files() {
     add_submenu_page(
         'uploads-for-registered-users',
         'User Files',
@@ -10,7 +10,7 @@ function user_files_admin_page() {
         'user_files_screen',
     );
 }
-add_action( 'admin_menu', 'user_files_admin_page' );
+add_action( 'admin_menu', 'add_page_user_files' );
 
 if(!class_exists('WP_List_Table')){
     require_once( ABSPATH . 'wp-admin/includes/screen.php' );

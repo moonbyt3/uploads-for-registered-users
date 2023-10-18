@@ -3,14 +3,14 @@ class UFRUSettingsPage {
     private $options;
 
     public function __construct() {
-        add_action('admin_menu', [$this, 'add_plugin_settings_page'], 9999);
+        add_action('admin_menu', [$this, 'add_page_settings'], 9999);
         add_action('admin_init', [$this, 'page_init']);
     }
 
     /**
      * Add options page
      */
-    public function add_plugin_settings_page() {
+    public function add_page_settings() {
         add_submenu_page(
             'uploads-for-registered-users',
             'Settings',

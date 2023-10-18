@@ -1,13 +1,13 @@
 <?php
 class UFRU_Uploads {
 	public function __construct() {
-        add_action('admin_menu', [$this, 'add_user_uploads_page']);
+        add_action('admin_menu', [$this, 'add_page_uploads']);
     }
 
     /**
      * Add Upload Files page
      */
-    public function add_user_uploads_page() {
+    public function add_page_uploads() {
 		add_menu_page(
 			'Uploads For Registered Users',
 			'Uploads',
