@@ -18,7 +18,8 @@
 ![image-admin-settings](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/2057e13a-d140-4835-8582-d87613c0712b)
 
 ### Admin - All Users' Uploads screen
-![image-admin-users-uploads](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/5404a371-5cb7-44d2-b73c-ed224ce4a606)
+![image-admin-users-uploads](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/de6a610a-151e-4aaf-9447-59fb25ce3333)
+
 
 ### Admin - Folder Scan screen
 ![image](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/9c9440ae-ef5b-45ad-ba7c-73e65064af04)
