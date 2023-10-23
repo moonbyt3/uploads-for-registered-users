@@ -1,7 +1,71 @@
+
 .ufru-table-user-files .column-user_id {
     width: 70px;
 }
 
 .ufru-table-user-files .column-user_login {
     width: 100px;
+}
+
+.ufru-upload-files__wrapper {
+    position: relative;
+}
+
+.ufru-upload-files__items {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    width: calc(100% - 200px + 0.5rem);
+    max-height: 206px;
+    transition: .6s ease-in-out;
+    overflow: hidden;
+}
+
+.ufru-upload-files__items-file {
+    aspect-ratio: 1/ 1;
+    display: flex;
+    align-items: center;
+    background-color: #1E1E1E;
+    color: #fff;
+}
+
+.ufru-upload-files__items-file img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.ufru-upload-files__items::before {
+    content: '';
+    width: 0;
+    padding-bottom: 100%;
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+}
+
+.ufru-upload-files__items > *:first-child{
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+}
+
+.ufru-upload-files__toggle-show-button {
+    margin: 5rem auto auto auto;
+    cursor: pointer;
+}
+
+.ufru-upload-files__toggle-show-button-show {
+    display: none;
+}
+
+.show {
+    display: block !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.expand-files {
+    max-height: 2000px;
 }

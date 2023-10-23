@@ -48,9 +48,6 @@ class User_Files_List_Table extends WP_List_Table {
         $plugin_name = 'ufru';
         $user_uploads_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $folder;
 
-        var_dump($_GET);
-
-        
         // Delete the file
         if ( file_exists( $user_uploads_folder ) ) {
             // Delete the file
@@ -71,49 +68,58 @@ class User_Files_List_Table extends WP_List_Table {
 		$user_uploads_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
 
 		$file_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
-        $file = array_diff(scandir($user_uploads_folder), array('..', '.'));
+        $files = array_diff(scandir($user_uploads_folder), array('..', '.'));
         $user_folder_url = wp_upload_dir()['baseurl'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name; // Get the user's folder URL
         
-		if (!empty($file)) {
+		if (!empty($files)) {
 			ob_start(); ?>
 			<div class="ufru-upload-files__wrapper">
-			<?php ob_end_flush();
-				ob_start();
-				foreach ($file as $file) { 
-				?>
-					<div class="ufru-file-preview">
-                        <?php
-                            $fileUrl = $user_folder_url . '/' . $file;
-                        ?>
-						<img
-                            src="<?php echo $file_url . '/' . $file ?>"
-                            onerror="this.onerror=null;this.src='https\:\/\/placehold.co/200x200?text=File <?php echo $file . '\''; ?>"
-                            data-url="<?php echo $fileUrl; ?>"
-                            class="ufru-file-preview__img"
-                            alt="User File"
-                            width="200"
-                            height="200"
-                            loading="lazy"
-                            title="<?php echo $file; ?>"
-                        >
-						<form method="post">
-							<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
-							<input type="hidden" name="user_id" value="<?php echo $user_id; ?>" />
-							<input type="hidden" name="user_name" value="<?php echo $user_name; ?>" />
-							<input type="hidden" name="remove_file" value="<?php echo $file; ?>">
-							<button 
-								class="ufru-file-preview__button ufru-file-preview__button--top-right ufru-file-preview__button-icon-remove ufru-button dashicons-before dashicons-no"
-								title="<?php echo __('Delete file', 'uploads-for-registered-users'); ?>"
-								type="submit"
-								id="submit"
-							></button>
-							<span class="ufru-file-preview__button ufru-file-preview__button--bottom-right ufru-file-preview__button-icon-expand ufru-button dashicons-before dashicons-editor-expand" title="<?php echo __('Open file in new tab', 'uploads-for-registered-users'); ?>" js-ufru-open-file></span>
-						</form>
-					</div>
-				<?php } ?>
-			<?php
-			ob_end_flush();
-			ob_start(); ?>
+                <div class="ufru-upload-files__items" js-ufru-user-files>
+                    <?php ob_end_flush();
+                    ob_start();
+                    foreach ($files as $file) { 
+                    ?>
+                        <div class="ufru-upload-files__items-file ufru-file-preview">
+                            <?php
+                                $fileUrl = $user_folder_url . '/' . $file;
+                            ?>
+                            <img
+                                src="<?php echo $file_url . '/' . $file ?>"
+                                onerror="this.onerror=null;this.src='https\:\/\/placehold.co/200x200?text=File <?php echo $file . '\''; ?>"
+                                data-url="<?php echo $fileUrl; ?>"
+                                class="ufru-file-preview__img"
+                                alt="User File"
+                                loading="lazy"
+                                title="<?php echo $file; ?>"
+                            >
+                            <form method="post">
+                                <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
+                                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>" />
+                                <input type="hidden" name="user_name" value="<?php echo $user_name; ?>" />
+                                <input type="hidden" name="remove_file" value="<?php echo $file; ?>">
+                                <button 
+                                    class="ufru-file-preview__button ufru-file-preview__button--top-right ufru-file-preview__button-icon-remove ufru-button dashicons-before dashicons-no"
+                                    title="<?php echo __('Delete file', 'uploads-for-registered-users'); ?>"
+                                    type="submit"
+                                    id="submit"
+                                ></button>
+                                <span class="ufru-file-preview__button ufru-file-preview__button--bottom-right ufru-file-preview__button-icon-expand ufru-button dashicons-before dashicons-editor-expand" title="<?php echo __('Open file in new tab', 'uploads-for-registered-users'); ?>" js-ufru-open-file></span>
+                            </form>
+                        </div>
+                    <?php } ?>
+                <?php
+                    ob_end_flush();
+                    ob_start(); 
+                ?>
+                </div>
+                <?php if (count($files) > 5) : ?>
+                    <div class="ufru-upload-files__toggle-show-button" js-ufru-btn-toggle="0">
+                        <span class="row-actions">
+                            <span class="ufru-upload-files__toggle-show-button-show show button button-primary" js-ufru-btn-toggle-show>Show More</span>
+                            <span class="ufru-upload-files__toggle-show-button-hide hide button button-primary" js-ufru-btn-toggle-hide>Show Less</span>
+                        </span>
+                    </div>
+                <?php endif; ?>
 			</div>
 			<?php ob_end_flush();
         } else {
