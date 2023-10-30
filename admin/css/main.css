@@ -105,6 +105,6 @@
     max-height: 2000px !important;
 }
 
-.expand-files + .ufru-upload-files__load-more {
+.expand-files .ufru-upload-files__load-more {
     display: none;
 }
