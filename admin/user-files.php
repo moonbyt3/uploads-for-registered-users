@@ -17,7 +17,7 @@ if(!class_exists('WP_List_Table')){
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-if ( isset( $_POST['remove_file'] ) ) {
+if ( isset( $_POST['remove_file']) && $_GET['page'] === 'user_files' ) {
     $plugin_name = 'ufru';
     $user_id = $_POST['user_id'];
     $user_name = $_POST['user_name'];
@@ -43,6 +43,7 @@ class User_Files_List_Table extends WP_List_Table {
     public function column_user_login($item) {
         $plugin_name = 'ufru';
         $user_name = $item['user_login'];
+        $user_name = preg_replace('/\s+/', '_', $user_name);
         $user_id = $item['user_id'];
 
         $user_uploads_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
