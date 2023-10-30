@@ -14,7 +14,8 @@
      * @return int File size in bytes
      **/
     function ufru_get_file_max_upload_size() {
-        return min( ufru_convert_PHP_size_to_bytes( ini_get( 'post_max_size' ) ), ufru_convert_PHP_size_to_bytes( ini_get( 'upload_max_filesize' ) ) );
+        $maxUploadSizeInBytes =    ufru_convert_PHP_size_to_bytes(ini_get('upload_max_filesize'));
+        return ufru_convert_bytes_to_megabytes($maxUploadSizeInBytes);
     }
 
     /**
@@ -51,5 +52,20 @@
         }
 
         return (int) $iValue;
+    }
+
+    /** 
+     * This function converts bytes to megabytes
+     *
+     * @param int $bytes 
+     * @return int 
+     */
+    function ufru_convert_bytes_to_megabytes($bytes) {
+        if (!is_numeric($bytes)) {
+            $errorMsg = '<div class="error notice">' . __('Error: Function parameter is not integer.', 'uploads-for-registered-users') .  '</div>';
+            wp_die($errorMsg);
+        } else {
+            return round($bytes / 1024 / 1024, 2);
+        }
     }
 ?>

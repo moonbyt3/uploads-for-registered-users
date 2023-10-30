@@ -168,12 +168,10 @@ class UFRUSettingsPage {
     }
 
     public function input_max_file_size_callback() {
-        $value = (isset( $this->options['ufru_max_file_size'] ) && !empty($this->options['ufru_max_file_size'])) ? $this->options['ufru_max_file_size'] : 2097152;
-        $value = intval($value); // Ensure the value is an integer representing megabytes.
-        $tip = '<br><p>' . __('Value should be represented in bytes, for example:', 'uploads-for-registered-users') . ' <code>2097152 = 2MB</code></p>';
-
+        $value = (isset( $this->options['ufru_max_file_size'] ) && !empty($this->options['ufru_max_file_size'])) ? $this->options['ufru_max_file_size'] : 1;
+        $tip = '<br><p>' . __('Value should be represented in megabytes, max file size defined by server:', 'uploads-for-registered-users') . ' <code>' . ufru_get_file_max_upload_size() . 'MB</code></p>';
         printf(
-            '<input type="number" id="ufru_max_file_size" name="ufru_settings[ufru_max_file_size]" max="'. ufru_get_file_max_upload_size() .'" value="%d" />',
+            '<input type="number" id="ufru_max_file_size" name="ufru_settings[ufru_max_file_size]" min="1" max="'. ufru_get_file_max_upload_size() .'" value="%d" />',
             esc_attr($value)
         );
         print($tip);
