@@ -21,7 +21,7 @@ if ( isset( $_POST['remove_file'] ) ) {
     $plugin_name = 'ufru';
     $user_id = $_POST['user_id'];
     $user_name = $_POST['user_name'];
-    $file_name = sanitize_file_name($_POST['remove_file']);
+    $file_name = $_POST['remove_file'];
 
     ufru_remove_file($user_id, $user_name, $file_name);
 }

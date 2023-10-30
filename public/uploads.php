@@ -95,7 +95,7 @@ class UFRU_Uploads {
 	
 			// Handle file removal
 			if ( isset( $_POST['remove_file'] ) ) {
-				$file_name = sanitize_file_name( $_POST['remove_file'] );
+				$file_name = $_POST['remove_file'];
 
 				ufru_remove_file($user_id, $user_name, $file_name);
 			}
