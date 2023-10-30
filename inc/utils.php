@@ -88,8 +88,8 @@
         $file_name = sanitize_file_name($file_name);
         $filepath_to_delete = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name  . '/' . $file_name;
 
-        if ( file_exists( $file_path ) ) {
-            unlink( $file_path ); // Delete the file
+        if ( file_exists( $filepath_to_delete ) ) {
+            unlink( $filepath_to_delete ); // Delete the file
         }
     }
 ?>
