@@ -27,26 +27,47 @@ class User_Files_List_Table extends WP_List_Table {
     }
 
     public function column_default($item, $column_name) {
-        return $item[$column_name];
+        return $item[$column_name] . '<span class="ufru-table-user-files__mobile-user-label"> | ' . $item['user_login'] . '</span>';
     }
 
     public function column_user_login($item) {
+        $plugin_name = 'ufru';
         $user_name = $item['user_login'];
+        $user_id = $item['user_id'];
+
+        $user_uploads_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
+        $user_files = array_diff(scandir($user_uploads_folder), array('..', '.'));
+
         $confirmationQuestion = sprintf( __( 'This will delete files for user: %s', 'uploads-for-registered-users' ), $user_name );
-        $actions = [
-            'delete'    => sprintf('<a href="?page=%s&action=delete&folder=%s" onclick="return confirm(\'' . $confirmationQuestion . '\')">%s</a>', $_REQUEST['page'], $item['user_id'] . '_' . $item['user_login'], __('Delete All Files', 'uploads-for-registered-users')),
-        ];
+
+        if (count($user_files) > 5) {
+            $viewAllFilesBtnHTML = "
+                <div class='ufru-upload-files__toggle-show-button' js-ufru-btn-toggle>
+                    <span class='ufru-upload-files__toggle-show-button-show show' js-ufru-btn-toggle-show>Show More</span>
+                    <span class='ufru-upload-files__toggle-show-button-hide hide' js-ufru-btn-toggle-hide>Show Less</span>
+                </div>
+            ";
+            $actions = [
+                'view'      => $viewAllFilesBtnHTML,
+                'delete'    => sprintf('<a href="?page=%s&action=delete&userfolder=%s" onclick="return confirm(\'' . $confirmationQuestion . '\')">%s</a>', $_REQUEST['page'], $item['user_id'] . '_' . $item['user_login'], __('Delete All Files', 'uploads-for-registered-users')),
+            ];
+        } else {
+            $actions = [
+                'delete'    => sprintf('<a href="?page=%s&action=delete&userfolder=%s" onclick="return confirm(\'' . $confirmationQuestion . '\')">%s</a>', $_REQUEST['page'], $item['user_id'] . '_' . $item['user_login'], __('Delete All Files', 'uploads-for-registered-users')),
+            ];    
+        }
+
         return sprintf('%1$s %2$s', $item['user_login'], $this->row_actions($actions) );
     }
 
     /**
-     * Delete all files from specified folder
+     * Delete all files from specified user folder
      *
-     * @param string $folder Path of the folder to delete
+     * @param string $user folder name to delete -> ID_USERNAME
      */
-    public function delete_all_user_files($folder) {
+    public function delete_all_user_files($user) {
         $plugin_name = 'ufru';
-        $user_uploads_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $folder;
+        $user_uploads_folder = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user;
 
         // Delete the file
         if ( file_exists( $user_uploads_folder ) ) {
@@ -73,7 +94,7 @@ class User_Files_List_Table extends WP_List_Table {
         
 		if (!empty($files)) {
 			ob_start(); ?>
-			<div class="ufru-upload-files__wrapper">
+			<div class="ufru-upload-files__wrapper" js-ufru-user-files-wrapper js-ufru-user-files-status="0">
                 <div class="ufru-upload-files__items" js-ufru-user-files>
                     <?php ob_end_flush();
                     ob_start();
@@ -113,11 +134,14 @@ class User_Files_List_Table extends WP_List_Table {
                 ?>
                 </div>
                 <?php if (count($files) > 5) : ?>
-                    <div class="ufru-upload-files__toggle-show-button" js-ufru-btn-toggle="0">
-                        <span class="row-actions">
-                            <span class="ufru-upload-files__toggle-show-button-show show button button-primary" js-ufru-btn-toggle-show>Show More</span>
-                            <span class="ufru-upload-files__toggle-show-button-hide hide button button-primary" js-ufru-btn-toggle-hide>Show Less</span>
-                        </span>
+                    <div class="ufru-upload-files__load-more">
+                        <div 
+                            class="ufru-upload-files__toggle-show-button" 
+                            js-ufru-btn-toggle
+                            title="<?php _e('Show more', 'uploads-for-registered-users'); ?>"
+                        >
+                            ...
+                        </div>
                     </div>
                 <?php endif; ?>
 			</div>
@@ -184,8 +208,8 @@ class User_Files_List_Table extends WP_List_Table {
         $action = $this->current_action();
         switch ( $action ) {
             case 'delete':
-                $folder_to_delete = $_GET['folder'];
-                $this->delete_all_user_files($folder_to_delete);
+                $user_folder_to_delete = $_GET['userfolder'];
+                $this->delete_all_user_files($user_folder_to_delete);
                 break;
             default:
                 return;

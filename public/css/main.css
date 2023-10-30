@@ -63,21 +63,6 @@
     min-width: 70px;
 }
 
-.ufru-files-grid {
-    display: flex;
-    flex-wrap: wrap;
-    grid-template-columns: auto auto auto;
-    gap: 50px;
-}
-
-.ufru-files-grid__media {
-    max-width: 250px;
-}
-
-.ufru-files-grid__media img {
-    width: 200px;
-}
-
 .ufru-file-preview {
     position: relative;
     display: flex;
@@ -90,13 +75,6 @@
 .ufru-file-preview form {
     height: 0;
     line-height: 0;
-}
-
-.ufru-upload-files__wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 1rem;
 }
 
 .ufru-file-preview__button {

@@ -135,14 +135,14 @@ class UFRU_Uploads {
 					</div>
 				</form>
 				<?php if ( ! empty( $files ) ) : ?>
-					<div class="ufru-upload-filess">
+					<div class="ufru-upload-files">
 						<h3>
 							<?php _e( 'Uploaded Files', 'uploads-for-registered-users' ); ?>
 							<span>(<?php echo count($files); ?> /  <?php echo urfu_calculate_max_number_of_uploads(); ?>)</span>
 						</h3>
-						<div class="ufru-upload-files__wrapper">
+						<div class="ufru-upload-files__items">
 							<?php foreach ( $files as $file ) : ?>
-								<div class="ufru-file-preview">
+								<div class="ufru-upload-files__items-file ufru-file-preview">
 									<?php
 										$fileUrl = $user_folder_url . '/' . $file;
 									?>
