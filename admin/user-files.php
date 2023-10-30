@@ -16,6 +16,16 @@ if(!class_exists('WP_List_Table')){
     require_once( ABSPATH . 'wp-admin/includes/screen.php' );
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
+
+if ( isset( $_POST['remove_file'] ) ) {
+    $plugin_name = 'ufru';
+    $user_id = $_POST['user_id'];
+    $user_name = $_POST['user_name'];
+    $file_name = sanitize_file_name($_POST['remove_file']);
+
+    ufru_remove_file($user_id, $user_name, $file_name);
+}
+
 // Admin page content
 class User_Files_List_Table extends WP_List_Table {
     public function __construct() {

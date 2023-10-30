@@ -1,4 +1,9 @@
 <?php
+    /**
+     * This function calculates maximum number of uploads. 
+     *
+     * @return int Number of maximum user uploads
+     **/
     function urfu_calculate_max_number_of_uploads() {
         $plugin_max_file_uploads = esc_attr(get_option( 'ufru_settings' )['ufru_max_number_of_uploads']);
         if ( $plugin_max_file_uploads ) {
@@ -66,6 +71,25 @@
             wp_die($errorMsg);
         } else {
             return round($bytes / 1024 / 1024, 2);
+        }
+    }
+
+    /** 
+     * This function removes file for fiven path
+     *
+     * @param string $user_id 
+     * @param string $user_name
+     * @param string $file_name
+     * @return void 
+     */
+    function ufru_remove_file($user_id, $user_name, $file_name) {
+        $plugin_name = 'ufru';
+        $user_name = preg_replace('/\s+/', '_', $user_name);
+        $file_name = sanitize_file_name($file_name);
+        $filepath_to_delete = wp_upload_dir()['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name  . '/' . $file_name;
+
+        if ( file_exists( $file_path ) ) {
+            unlink( $file_path ); // Delete the file
         }
     }
 ?>
