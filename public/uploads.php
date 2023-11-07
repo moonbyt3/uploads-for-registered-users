@@ -46,8 +46,6 @@ class UFRU_Uploads {
 			// Handle file uploads
 			if ( isset( $_POST['submit'] ) ) {
 				$user_id = get_current_user_id();
-				$upload_dir = wp_upload_dir();
-				$user_folder = $upload_dir['basedir'] . '/' . $plugin_name . '/' . $user_id . '_' . $user_name;
 				$current_number_of_files = count(glob($user_folder . '/*')); // Count existing files in the folder
 				$max_files = urfu_calculate_max_number_of_uploads();
 				$allowed_file_formats = get_option('ufru_settings')['ufru_allowed_file_types'];
@@ -97,12 +95,9 @@ class UFRU_Uploads {
 	
 			// Handle file removal
 			if ( isset( $_POST['remove_file'] ) ) {
-				$filename = sanitize_file_name( $_POST['remove_file'] );
-				$file_path = $user_folder . '/' . $filename;
-	
-				if ( file_exists( $file_path ) ) {
-					unlink( $file_path ); // Delete the file
-				}
+				$file_name = $_POST['remove_file'];
+
+				ufru_remove_file($user_id, $user_name, $file_name);
 			}
 	
 			// Check if user directory exists
@@ -135,14 +130,14 @@ class UFRU_Uploads {
 					</div>
 				</form>
 				<?php if ( ! empty( $files ) ) : ?>
-					<div class="ufru-upload-filess">
+					<div class="ufru-upload-files">
 						<h3>
 							<?php _e( 'Uploaded Files', 'uploads-for-registered-users' ); ?>
 							<span>(<?php echo count($files); ?> /  <?php echo urfu_calculate_max_number_of_uploads(); ?>)</span>
 						</h3>
-						<div class="ufru-upload-files__wrapper">
+						<div class="ufru-upload-files__items">
 							<?php foreach ( $files as $file ) : ?>
-								<div class="ufru-file-preview">
+								<div class="ufru-upload-files__items-file ufru-file-preview">
 									<?php
 										$fileUrl = $user_folder_url . '/' . $file;
 									?>

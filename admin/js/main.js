@@ -1,30 +1,36 @@
 jQuery(document).ready(function ($) {
-    const $selectors = {
+    const selectors = {
         userFiles: 'js-ufru-user-files',
+        userFilesWrapper: 'js-ufru-user-files-wrapper',
         toggleBtn: 'js-ufru-btn-toggle',
+        toggleBtnStatus: 'js-ufru-user-files-status',
         toggleBtnShow: 'js-ufru-btn-toggle-show',
         toggleBtnHide: 'js-ufru-btn-toggle-hide',
     }
 
-    const $hooks = {
-        userFiles: `[${$selectors.userFiles}]`,
-        toggleBtn: `[${$selectors.toggleBtn}]`,
-        toggleBtnShow: `[${$selectors.toggleBtnShow}]`,
-        toggleBtnHide: `[${$selectors.toggleBtnHide}]`,
+    const hooks = {
+        userFiles: `[${selectors.userFiles}]`,
+        userFilesWrapper: `[${selectors.userFilesWrapper}]`,
+        toggleBtn: `[${selectors.toggleBtn}]`,
+        toggleBtnStatus: `${selectors.toggleBtnStatus}`,
+        toggleBtnShow: `[${selectors.toggleBtnShow}]`,
+        toggleBtnHide: `[${selectors.toggleBtnHide}]`,
     };
 
     const $dom = {
-        toggleBtn: $($hooks.toggleBtn),
+        toggleBtn: $(hooks.toggleBtn),
+        userFilesWrappers: $(hooks.userFiles)
     };
 
     $dom.toggleBtn.on('click', (e) => {
-        const showMoreText = $(e.currentTarget).find($hooks.toggleBtnShow);
-        const showLessText = $(e.currentTarget).find($hooks.toggleBtnHide);
-        const userFilesWrapper = $(e.currentTarget).siblings($hooks.userFiles);
-
-        if (e.currentTarget.getAttribute($selectors.toggleBtn) === "0") {
+        console.log('click', $(e.currentTarget));
+        const showMoreText = $(e.currentTarget).parents('tr').find(hooks.toggleBtnShow);
+        const showLessText = $(e.currentTarget).parents('tr').find(hooks.toggleBtnHide);
+        const userFilesWrapper = $(e.currentTarget).parents('tr').find(hooks.userFilesWrapper);
+        console.log('more: ', showMoreText);
+        if (userFilesWrapper.attr(selectors.toggleBtnStatus) === "0") {
             // Show items
-            e.currentTarget.setAttribute($selectors.toggleBtn, 1);
+            userFilesWrapper.attr(selectors.toggleBtnStatus, 1);
             showMoreText.removeClass('show');
             showMoreText.addClass('hide');
             showLessText.removeClass('hide');
@@ -33,7 +39,7 @@ jQuery(document).ready(function ($) {
             userFilesWrapper.addClass('expand-files');
         } else {
             // Hide Items
-            e.currentTarget.setAttribute($selectors.toggleBtn, 0);
+            userFilesWrapper.attr(selectors.toggleBtnStatus, 0);
             showMoreText.removeClass('hide');
             showMoreText.addClass('show');
             showLessText.removeClass('show');
@@ -42,4 +48,18 @@ jQuery(document).ready(function ($) {
             userFilesWrapper.removeClass('expand-files');
         }
     })
+
+    $dom.userFilesWrappers.each((i, el) => {
+        const resize_ob = new ResizeObserver(function(entries) {
+            // since we are observing only a single element, so we access the first element in entries array
+            const rect = entries[0].contentRect;
+            const height = rect.height;
+            const imgHeight = $(entries[0].target).find('img').height();
+        
+            $(entries[0].target).css({
+                "max-height": `${imgHeight}px`,
+            })
+        });
+        resize_ob.observe(el);
+    });
 });

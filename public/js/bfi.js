@@ -158,14 +158,14 @@ document.addEventListener('change', e => {
 			let files = [];
 			for (let i = 0; i < e.target.files.length; i++) {
                 let file = e.target.files[i];
-                if (file.size <= ufru_max_file_size) { // Check if file size is less than or equal to 2 megabytes
+                if (convert_bytes_to_megabytes(file.size) <= ufru_max_file_size) { // Check if file size is less than or equal to 2 megabytes
                     files.push({
                         'name': file.name,
                         'size': Number(file.size / 1000).toFixed(1) + ' KB',
                         'url': URL.createObjectURL(file)
                     });
                 } else {
-                    alert(`File "${file.name}" exceeds the ${bytesToSize(ufru_max_file_size)} size limit and will not be uploaded.`);
+                    alert(`File "${file.name}" exceeds the ${ufru_max_file_size}MB size limit and will not be uploaded.`);
                 }
 			}
 			if (files.length > 0) {
@@ -219,5 +219,14 @@ function bfi_clear(query = null) {
 			el.value = '';
 			el.dispatchEvent(new Event('change', { 'bubbles': true }));
 		});
+	}
+}
+
+function convert_bytes_to_megabytes(bytes) {
+	if (!bytes) {
+		console.log('Error: parameter passed to this function is not defined');
+		return;
+	} else {
+		return (bytes / (1024 * 1024)).toFixed(1);
 	}
 }

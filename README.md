@@ -12,17 +12,18 @@
 
 # Screenshots
 ### Regular user with Subscriber role:
-![image-upload-files](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/078e95bd-dd0a-4827-83cc-5261563ce5a7)
+![image-upload-files](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/412fe6ce-5849-4d40-89ea-dedf03197f43)
 
 ### Admin - Settings screen:
-![image-admin-settings](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/2057e13a-d140-4835-8582-d87613c0712b)
+![image-admin-settings](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/41c0797b-9d9a-4f83-9b6f-f8e99ddadb17)
 
 ### Admin - All Users' Uploads screen
-![image-admin-users-uploads](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/de6a610a-151e-4aaf-9447-59fb25ce3333)
-
+![image-admin-users-uploads](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/adefb80e-76e8-43e3-a512-2d0b6064dab2)
 
 ### Admin - Folder Scan screen
-![image](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/9c9440ae-ef5b-45ad-ba7c-73e65064af04)
+If you delete user, user files will remain in ```/wp-content/uploads/ufru/``` folder. This option page will scan ufru folder and compare it with all remaining users. If it finds difference, checkboxes will appear.
+
+![image-admin-folder-scan](https://github.com/moonbyt3/uploads-for-registered-users/assets/24306614/ed311909-2801-48d9-a25c-5ad79bc1318b)
 
 
 
