@@ -59,7 +59,7 @@ class UFRUSettingsPage {
             'General settings', // Title
             null, // Callback
             'ufru-settings-admin' // Page
-        );  
+        );
 
         add_settings_field(
             'ufru_max_number_of_uploads', // ID
@@ -109,12 +109,37 @@ class UFRUSettingsPage {
             ]
         );
 
+        add_settings_section(
+            'settings_section_user_files', // ID
+            'User Files settings', // Title
+            null, // Callback
+            'ufru-settings-admin' // Page
+        );
+
+        add_settings_field(
+            'ufru_user_files_users_per_page', // ID
+            'Users per page', // Title
+            [$this, 'input_user_files_users_per_page_callback'], // Callback
+            'ufru-settings-admin', // Page
+            'settings_section_user_files', // Section
+            [
+                'name' => 'ufru_user_files_users_per_page',
+                'label_for' => 'ufru_user_files_users_per_page',
+            ]
+        );
+
         $all_options = get_option( 'ufru_settings' );
 
         if (!isset($all_options['ufru_allowed_roles_to_upload_files'])) {
             $all_options['ufru_allowed_roles_to_upload_files'] = [
                 'subscriber'
             ];
+
+            update_option('ufru_settings', $all_options);
+        }
+
+        if (!isset($all_options['ufru_user_files_users_per_page'])) {
+            $all_options['ufru_user_files_users_per_page'] = 8;
 
             update_option('ufru_settings', $all_options);
         }
@@ -127,20 +152,22 @@ class UFRUSettingsPage {
      */
     public function sanitize( $input ) {
         $new_input = [];
-        if( isset( $input['ufru_max_number_of_uploads'] ) )
+        if ( isset( $input['ufru_max_number_of_uploads'] ) )
             $new_input['ufru_max_number_of_uploads'] = absint( $input['ufru_max_number_of_uploads'] );
 
-        if( isset( $input['ufru_allowed_file_types'] ) )
+        if ( isset( $input['ufru_allowed_file_types'] ) )
             $new_input['ufru_allowed_file_types'] = sanitize_text_field( $input['ufru_allowed_file_types'] );
 
-        if( isset( $input['ufru_max_file_size'] ) && (int)$input['ufru_max_file_size'] == $input['ufru_max_file_size'] ) {
+        if ( isset( $input['ufru_max_file_size'] ) && (int)$input['ufru_max_file_size'] == $input['ufru_max_file_size'] ) {
             $new_input['ufru_max_file_size'] = sanitize_text_field( $input['ufru_max_file_size'] );
         } else {
             $errorMsg = '<div class="error notice">' . __('Error: Max file size is not a number.', 'uploads-for-registered-users') .  '</div>';
             wp_die($errorMsg);
         }
-        if( isset( $input['ufru_allowed_roles_to_upload_files'] ) )
+        if ( isset( $input['ufru_allowed_roles_to_upload_files'] ) )
             $new_input['ufru_allowed_roles_to_upload_files'] = $input['ufru_allowed_roles_to_upload_files'];
+        if ( isset( $input['ufru_user_files_users_per_page']) )
+            $new_input['ufru_user_files_users_per_page'] = sanitize_text_field( $input['ufru_user_files_users_per_page'] );
 
         return $new_input;
     }
@@ -199,6 +226,13 @@ class UFRUSettingsPage {
                 <?php endforeach; ?>
             </div>
         <?php
+    }
+
+    public function input_user_files_users_per_page_callback() {
+        printf(
+            '<input type="number" id="ufru_user_files_users_per_page" name="ufru_settings[ufru_user_files_users_per_page]" value="%s" />',
+            (isset($this->options['ufru_user_files_users_per_page']) && $this->options['ufru_user_files_users_per_page']) ? esc_attr( $this->options['ufru_user_files_users_per_page']) : 8
+        );
     }
 }
 

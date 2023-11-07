@@ -143,7 +143,8 @@ class User_Files_List_Table extends WP_List_Table {
 			$this->get_sortable_columns(),
 		];
         $data = $this->get_user_files_data();
-        $per_page = 8;
+        $all_options = get_option( 'ufru_settings' );
+        $per_page = $all_options['ufru_user_files_users_per_page'];
         $current_page = $this->get_pagenum();
         $total_items = count($data);
 
